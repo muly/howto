@@ -9,7 +9,7 @@ import (
 type clientRequest int
 
 func (c clientRequest) ServeHTTP(w http.ResponseWriter, r *http.Request)  {
-	fmt.Fprintln(w, "Hi client request")
+	fmt.Fprintln(w, "Hi client request\nHi World...!")
 }
 
 func main()  {
