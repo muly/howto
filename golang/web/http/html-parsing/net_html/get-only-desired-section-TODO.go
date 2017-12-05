@@ -12,10 +12,9 @@ import (
 // Attr.Key: id
 // Attr.Val: pkg-overview
 
-var requiredNodePath []*html.Node
+var requiredNodePath []html.Node
 
 func init() {
-	//TODO: these additions are not reflecting
 	n := html.Node{}
 	n.Type = html.ElementNode
 	n.Data = "div"
@@ -23,7 +22,8 @@ func init() {
 	a.Key = "class"
 	a.Val = "post-footer-line post-footer-line-1"
 	n.Attr = append(n.Attr, a)
-	requiredNodePath = append(requiredNodePath, &n)
+	requiredNodePath = append(requiredNodePath, n)
+
 
 	n = html.Node{}
 	n.Type = html.ElementNode
@@ -32,7 +32,8 @@ func init() {
 	a.Key = "class"
 	a.Val = "post-author vcard"
 	n.Attr = append(n.Attr, a)
-	requiredNodePath = append(requiredNodePath, &n)
+	requiredNodePath = append(requiredNodePath, n)
+
 
 	n = html.Node{}
 	n.Type = html.ElementNode
@@ -41,11 +42,19 @@ func init() {
 	a.Key = "itemprop"
 	a.Val = "name"
 	n.Attr = append(n.Attr, a)
-	requiredNodePath = append(requiredNodePath, &n)
+	requiredNodePath = append(requiredNodePath, n)
+
 
 	n = html.Node{}
 	n.Type = html.TextNode
-	requiredNodePath = append(requiredNodePath, &n)
+	requiredNodePath = append(requiredNodePath, n)
+
+
+	//for _, m := range requiredNodePath { // for debug purpose
+	////for m := requiredNodePath.FirstChild; m != nil; m = m.NextSibling {
+	//	fmt.Println(nodeTypeText(m.Type), m.Data, m.Attr)
+	//}
+
 }
 
 func main() {
@@ -70,7 +79,7 @@ func main() {
 
 }
 
-func isMatchingNode(n *html.Node, matchWith *html.Node) bool {
+func isMatchingNode(n *html.Node, matchWith html.Node) bool {
 	if n.Type == matchWith.Type && n.Data == matchWith.Data { // TODO: check only on non blank fields
 		matchCnt := 0
 		for _, a := range matchWith.Attr {
@@ -88,16 +97,17 @@ func isMatchingNode(n *html.Node, matchWith *html.Node) bool {
 	return false
 }
 
-type WalkFunc func(*html.Node, *html.Node) bool
+type WalkFunc func(*html.Node, html.Node) bool
 
-func FindMatchingNode(root *html.Node, match []*html.Node, walkF WalkFunc) {
-	for _, m:= range match {
-		fmt.Println(nodeTypeText(m.Type), m.Data, m.Attr)
-		var f func(*html.Node)*html.Node
+func FindMatchingNode(root *html.Node, match []html.Node, walkF WalkFunc) {
+	for i, m := range match {
+		//for m := match.FirstChild; m != nil; m = m.NextSibling {
+		//fmt.Println(nodeTypeText(m.Type), m.Data, m.Attr)
+		var f func(*html.Node) *html.Node
 		f = func(n *html.Node) *html.Node {
 			//fmt.Println(nodeTypeText(n.Type), n.Data, n.Attr)
 			if walkF(n, m) {
-				//fmt.Println(nodeTypeText(n.Type), n.Data, n.Attr)
+				fmt.Println(i, nodeTypeText(n.Type), n.Data, n.Attr)
 				return n
 			}
 
@@ -106,7 +116,7 @@ func FindMatchingNode(root *html.Node, match []*html.Node, walkF WalkFunc) {
 			}
 			return nil
 		}
-		f(root)
+		root = f(root)
 	}
 }
 
