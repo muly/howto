@@ -34,13 +34,13 @@ func main() {
 	fmt.Println(sliceComp(a4, a5)) // true
 }
 
-func sliceComp(aa []string, bb []string) bool {
+func sliceStringComp(aa []string, bb []string) bool {
 	if len(aa) != len(bb) {
 		return false
 	}
 
-	ma := slice2map(aa)
-	mb := slice2map(bb)
+	ma := sliceString2map(aa)
+	mb := sliceString2map(bb)
 
 	for a, acnt := range ma {
 		if bcnt, exists := mb[a]; !exists || acnt != bcnt {
@@ -51,7 +51,7 @@ func sliceComp(aa []string, bb []string) bool {
 	return true
 }
 
-func slice2map(aa []string) map[string]int {
+func sliceString2map(aa []string) map[string]int {
 	m := map[string]int{}
 	for _, a := range aa {
 		m[a]++
