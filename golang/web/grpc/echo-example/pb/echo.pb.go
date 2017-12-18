@@ -10,6 +10,7 @@ It is generated from these files:
 It has these top-level messages:
 	Input
 	Output
+	OutputStream
 */
 package echo
 
@@ -65,9 +66,26 @@ func (m *Output) GetText() string {
 	return ""
 }
 
+type OutputStream struct {
+	Text string `protobuf:"bytes,1,opt,name=text" json:"text,omitempty"`
+}
+
+func (m *OutputStream) Reset()                    { *m = OutputStream{} }
+func (m *OutputStream) String() string            { return proto.CompactTextString(m) }
+func (*OutputStream) ProtoMessage()               {}
+func (*OutputStream) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+
+func (m *OutputStream) GetText() string {
+	if m != nil {
+		return m.Text
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*Input)(nil), "echo.Input")
 	proto.RegisterType((*Output)(nil), "echo.Output")
+	proto.RegisterType((*OutputStream)(nil), "echo.OutputStream")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -82,6 +100,9 @@ const _ = grpc.SupportPackageIsVersion4
 
 type EchoClient interface {
 	EchoEcho(ctx context.Context, in *Input, opts ...grpc.CallOption) (*Output, error)
+	EchoEchoOutputStream(ctx context.Context, in *Input, opts ...grpc.CallOption) (Echo_EchoEchoOutputStreamClient, error)
+	EchoEchoInputStream(ctx context.Context, opts ...grpc.CallOption) (Echo_EchoEchoInputStreamClient, error)
+	EchoEchoBiStream(ctx context.Context, opts ...grpc.CallOption) (Echo_EchoEchoBiStreamClient, error)
 }
 
 type echoClient struct {
@@ -101,10 +122,110 @@ func (c *echoClient) EchoEcho(ctx context.Context, in *Input, opts ...grpc.CallO
 	return out, nil
 }
 
+func (c *echoClient) EchoEchoOutputStream(ctx context.Context, in *Input, opts ...grpc.CallOption) (Echo_EchoEchoOutputStreamClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_Echo_serviceDesc.Streams[0], c.cc, "/echo.Echo/EchoEchoOutputStream", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &echoEchoEchoOutputStreamClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Echo_EchoEchoOutputStreamClient interface {
+	Recv() (*OutputStream, error)
+	grpc.ClientStream
+}
+
+type echoEchoEchoOutputStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *echoEchoEchoOutputStreamClient) Recv() (*OutputStream, error) {
+	m := new(OutputStream)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *echoClient) EchoEchoInputStream(ctx context.Context, opts ...grpc.CallOption) (Echo_EchoEchoInputStreamClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_Echo_serviceDesc.Streams[1], c.cc, "/echo.Echo/EchoEchoInputStream", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &echoEchoEchoInputStreamClient{stream}
+	return x, nil
+}
+
+type Echo_EchoEchoInputStreamClient interface {
+	Send(*Input) error
+	CloseAndRecv() (*Output, error)
+	grpc.ClientStream
+}
+
+type echoEchoEchoInputStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *echoEchoEchoInputStreamClient) Send(m *Input) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *echoEchoEchoInputStreamClient) CloseAndRecv() (*Output, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(Output)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *echoClient) EchoEchoBiStream(ctx context.Context, opts ...grpc.CallOption) (Echo_EchoEchoBiStreamClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_Echo_serviceDesc.Streams[2], c.cc, "/echo.Echo/EchoEchoBiStream", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &echoEchoEchoBiStreamClient{stream}
+	return x, nil
+}
+
+type Echo_EchoEchoBiStreamClient interface {
+	Send(*OutputStream) error
+	Recv() (*OutputStream, error)
+	grpc.ClientStream
+}
+
+type echoEchoEchoBiStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *echoEchoEchoBiStreamClient) Send(m *OutputStream) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *echoEchoEchoBiStreamClient) Recv() (*OutputStream, error) {
+	m := new(OutputStream)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // Server API for Echo service
 
 type EchoServer interface {
 	EchoEcho(context.Context, *Input) (*Output, error)
+	EchoEchoOutputStream(*Input, Echo_EchoEchoOutputStreamServer) error
+	EchoEchoInputStream(Echo_EchoEchoInputStreamServer) error
+	EchoEchoBiStream(Echo_EchoEchoBiStreamServer) error
 }
 
 func RegisterEchoServer(s *grpc.Server, srv EchoServer) {
@@ -129,6 +250,79 @@ func _Echo_EchoEcho_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Echo_EchoEchoOutputStream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Input)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(EchoServer).EchoEchoOutputStream(m, &echoEchoEchoOutputStreamServer{stream})
+}
+
+type Echo_EchoEchoOutputStreamServer interface {
+	Send(*OutputStream) error
+	grpc.ServerStream
+}
+
+type echoEchoEchoOutputStreamServer struct {
+	grpc.ServerStream
+}
+
+func (x *echoEchoEchoOutputStreamServer) Send(m *OutputStream) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _Echo_EchoEchoInputStream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(EchoServer).EchoEchoInputStream(&echoEchoEchoInputStreamServer{stream})
+}
+
+type Echo_EchoEchoInputStreamServer interface {
+	SendAndClose(*Output) error
+	Recv() (*Input, error)
+	grpc.ServerStream
+}
+
+type echoEchoEchoInputStreamServer struct {
+	grpc.ServerStream
+}
+
+func (x *echoEchoEchoInputStreamServer) SendAndClose(m *Output) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *echoEchoEchoInputStreamServer) Recv() (*Input, error) {
+	m := new(Input)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func _Echo_EchoEchoBiStream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(EchoServer).EchoEchoBiStream(&echoEchoEchoBiStreamServer{stream})
+}
+
+type Echo_EchoEchoBiStreamServer interface {
+	Send(*OutputStream) error
+	Recv() (*OutputStream, error)
+	grpc.ServerStream
+}
+
+type echoEchoEchoBiStreamServer struct {
+	grpc.ServerStream
+}
+
+func (x *echoEchoEchoBiStreamServer) Send(m *OutputStream) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *echoEchoEchoBiStreamServer) Recv() (*OutputStream, error) {
+	m := new(OutputStream)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 var _Echo_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "echo.Echo",
 	HandlerType: (*EchoServer)(nil),
@@ -138,19 +332,41 @@ var _Echo_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Echo_EchoEcho_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "EchoEchoOutputStream",
+			Handler:       _Echo_EchoEchoOutputStream_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "EchoEchoInputStream",
+			Handler:       _Echo_EchoEchoInputStream_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "EchoEchoBiStream",
+			Handler:       _Echo_EchoEchoBiStream_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "echo.proto",
 }
 
 func init() { proto.RegisterFile("echo.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 109 bytes of a gzipped FileDescriptorProto
+	// 177 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4a, 0x4d, 0xce, 0xc8,
 	0xd7, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x01, 0xb1, 0x95, 0xa4, 0xb9, 0x58, 0x3d, 0xf3,
 	0x0a, 0x4a, 0x4b, 0x84, 0x84, 0xb8, 0x58, 0x4a, 0x52, 0x2b, 0x4a, 0x24, 0x18, 0x15, 0x18, 0x35,
-	0x38, 0x83, 0xc0, 0x6c, 0x25, 0x19, 0x2e, 0x36, 0xff, 0xd2, 0x12, 0x1c, 0xb2, 0x46, 0xfa, 0x5c,
-	0x2c, 0xae, 0xc9, 0x19, 0xf9, 0x42, 0xea, 0x5c, 0x1c, 0x20, 0x1a, 0xcc, 0xe6, 0xd6, 0x03, 0xdb,
-	0x00, 0x36, 0x52, 0x8a, 0x07, 0xc2, 0x81, 0x18, 0xa1, 0xc4, 0x90, 0xc4, 0x06, 0xb6, 0xd8, 0x18,
-	0x10, 0x00, 0x00, 0xff, 0xff, 0x53, 0x05, 0x49, 0x04, 0x86, 0x00, 0x00, 0x00,
+	0x38, 0x83, 0xc0, 0x6c, 0x25, 0x19, 0x2e, 0x36, 0xff, 0xd2, 0x12, 0x5c, 0xb2, 0x4a, 0x5c, 0x3c,
+	0x10, 0xd9, 0xe0, 0x92, 0xa2, 0xd4, 0xc4, 0x5c, 0x6c, 0x6a, 0x8c, 0x9e, 0x30, 0x72, 0xb1, 0xb8,
+	0x26, 0x67, 0xe4, 0x0b, 0xa9, 0x73, 0x71, 0x80, 0x68, 0x30, 0x9b, 0x5b, 0x0f, 0xec, 0x0c, 0xb0,
+	0xbd, 0x52, 0x3c, 0x10, 0x0e, 0xc4, 0x24, 0x25, 0x06, 0x21, 0x6b, 0x2e, 0x11, 0x98, 0x42, 0x14,
+	0xd3, 0x51, 0x34, 0x09, 0x21, 0x6b, 0x82, 0x28, 0x50, 0x62, 0x30, 0x60, 0x14, 0x32, 0xe1, 0x12,
+	0x86, 0x69, 0x06, 0x2b, 0xc4, 0xa6, 0x17, 0xcd, 0x42, 0x0d, 0x46, 0x21, 0x07, 0x2e, 0x01, 0x98,
+	0x2e, 0xa7, 0x4c, 0x98, 0x67, 0x30, 0x6d, 0xc0, 0x6e, 0xab, 0x06, 0xa3, 0x01, 0x63, 0x12, 0x1b,
+	0x38, 0x48, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x3c, 0xea, 0xed, 0x8e, 0x60, 0x01, 0x00,
+	0x00,
 }
