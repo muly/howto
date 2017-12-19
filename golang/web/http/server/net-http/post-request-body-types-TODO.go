@@ -19,7 +19,11 @@ func main() {
 }
 
 //1b) form data file type server example
+// NOTE: tested with client code "github.com\muly\howto\golang\web\http\client\net-http\post-request-body-types-TODO.go"
+// But not tested with Postman or some other REST client.
 func handlerFormDataFileType(w http.ResponseWriter, r *http.Request) {
+
+	fmt.Println("received request")
 
 	r.ParseMultipartForm(32 << 30)
 	dataFile, _, err := r.FormFile("file") // Here file is the key specified in the form while sending the file in form
