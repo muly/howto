@@ -15,7 +15,7 @@ func main() {
 
 	text, m, err := docconv.ConvertPDF(f)
 	if err != nil {
-		fmt.Println("error converting pdf to text:",err)
+		fmt.Println("error converting pdf to text:", err)
 		return
 	}
 

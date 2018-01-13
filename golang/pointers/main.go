@@ -52,7 +52,7 @@ func fMap(a map[int]int) { // maps are passed by reference by default
 	fmt.Println("map inside func", a)
 }
 
-func fString(a string){
+func fString(a string) {
 	a = "99"
 	fmt.Println("string inside func", a)
 }

@@ -20,7 +20,7 @@ func main() {
 		Tags []string
 	}
 
-	m := Blog{Name: "api development using golang", Tags: []string{"golang", "api"}}
+	m := Blog{Name: "pb development using golang", Tags: []string{"golang", "pb"}}
 
 	err = blogs.Insert(&m)
 	if err != nil {
