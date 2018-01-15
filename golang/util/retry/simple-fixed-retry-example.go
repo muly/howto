@@ -48,6 +48,7 @@ func withSimpleRetry(r retryable) error {
 			if delay < 0 {
 				return errors.New("max retry duration exceeded, still failing. latest error: " + err.Error())
 			}
+			time.Sleep(delay)
 			continue
 		}
 		return nil
@@ -114,7 +115,7 @@ func (bc BackoffConfig) backoff(retries int) time.Duration {
 		retries--
 	}
 	if backoff > max {
-		return -1
+		return -1 // modified this to -1 to exit after reaching max backoff time.
 	}
 	// Randomize backoff delays so that if a cluster of requests start at
 	// the same time, they won't operate in lockstep.
