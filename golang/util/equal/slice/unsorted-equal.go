@@ -10,8 +10,8 @@ func main() {
 	b := []string{"a", "b", "c"} // same data case
 	c := []string{"c", "b", "a"} // same data different order case
 	d := []string{"b", "c", "d"} // different data, same length case
-	e := []string{"b", "c"} // different data, different lenght case
-	f := []string{} // empty case
+	e := []string{"b", "c"}      // different data, different lenght case
+	f := []string{}              // empty case
 
 	a1 := []string{"a", "a", "b"}
 	a2 := []string{"a", "a", "b"} // same data case with duplicates
@@ -22,16 +22,16 @@ func main() {
 	a4 := []string{}
 	a5 := []string{} // both empty case
 
-	fmt.Println(sliceComp(a, b))   // true
-	fmt.Println(sliceComp(a, c))   // true
-	fmt.Println(sliceComp(a, d))   // false
-	fmt.Println(sliceComp(a, e))   // false
-	fmt.Println(sliceComp(a, f))   // false
-	fmt.Println(sliceComp(a1, g))  // false
-	fmt.Println(sliceComp(a1, h))  // false
-	fmt.Println(sliceComp(a1, a2)) // true
-	fmt.Println(sliceComp(a1, a3)) // true
-	fmt.Println(sliceComp(a4, a5)) // true
+	fmt.Println(sliceStringComp(a, b))   // true
+	fmt.Println(sliceStringComp(a, c))   // true
+	fmt.Println(sliceStringComp(a, d))   // false
+	fmt.Println(sliceStringComp(a, e))   // false
+	fmt.Println(sliceStringComp(a, f))   // false
+	fmt.Println(sliceStringComp(a1, g))  // false
+	fmt.Println(sliceStringComp(a1, h))  // false
+	fmt.Println(sliceStringComp(a1, a2)) // true
+	fmt.Println(sliceStringComp(a1, a3)) // true
+	fmt.Println(sliceStringComp(a4, a5)) // true
 }
 
 func sliceStringComp(aa []string, bb []string) bool {
