@@ -20,7 +20,7 @@ type Req struct {
 // 	Ok      bool   `json:"ok"`
 // }
 
-type GateWayResp struct { //Note: if the lambda is triggered via API Gateway then the response needs to be in below format, otherwise, the request would fail eventhough the Lambda actually succeeded
+type GateWayResp struct { //Note: if the lambda is triggered via API Gateway then the response needs to be in below format, otherwise, the request would fail eventhough the Lambda actually succeeded. ref https://aws.amazon.com/premiumsupport/knowledge-center/malformed-502-api-gateway/
 	IsBase64Encoded bool `json:"isBase64Encoded"`
 	StatusCode      int  `json:"statusCode"`
 	//Headers `json:"headers"`
@@ -32,10 +32,11 @@ func Handler(req Req) (resp GateWayResp, err error) {
 		IsBase64Encoded: false,
 		StatusCode:      http.StatusOK,
 		Body:            fmt.Sprintf("processing the request ID %v", req.ID),
-
+	}, nil
+	//return Resp{
 		//Message: fmt.Sprintf("processing the request ID %v", req.ID),
 		//Ok:      true,
-	}, nil
+	//}, nil
 }
 
 func main() {
