@@ -23,6 +23,6 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 // 		docker build -t hellowebapp .
 // docker run to create the container from the specified image (using tag in below example).
 // and -p flag to indicate the outside port to insdide docker port mapping
-// 		docker run -p 9000:8080 hellowebapp
+// 		docker run --rm -p 9000:8080 hellowebapp
 // in browser, run the below url to verify
 //		http://localhost:9000/

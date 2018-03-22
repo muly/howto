@@ -14,9 +14,9 @@ func main() {
 // compile go code and add the binary into the container
 //		CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 // docker build to generate image, and tag it with the specified tag (using -t flag in the below example)
-//		docker build -t hellosmallapp -f Dockerfile .
+//		docker build -t hellosmallapp .
 // docker run to create the container from the specified image (using tag in below example)
-// 		docker run hellosmallapp
+// 		docker run --rm hellosmallapp
 
 // https://blog.codeship.com/building-minimal-docker-containers-for-go-applications/ #Part 3: Compile!
 // vs
