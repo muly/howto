@@ -14,5 +14,4 @@ func main() {
 // 		docker build -t helloapp .
 // docker run to create the container from the specified image (using tag in below example)
 // 		docker run helloapp
-//
-//
+
