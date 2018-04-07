@@ -1,0 +1,7 @@
+---
+applications:
+- name: hello-muly
+  memory: 128M
+  instances: 1
+  command: ./hello
+  buildpack: binary_buildpack

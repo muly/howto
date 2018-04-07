@@ -1,0 +1,19 @@
+// deployment instructions
+1. build
+    GOOS=linux GOARCH=amd64 go build -o hello
+2. push (make sure all the deploy files are in the pwd, and cf login is already executed)
+    cf push -f manfiest.yaml
+
+
+// list of errors encountered
+
+//1. when the app name is already taken. Note. the route name created with the app name as its part is in the global name space. check this https://forum.predix.io/questions/31450/failed-push-app.html
+//	The app cannot be mapped to route xxxxxxxxxxxxxxxxxxxxx because the route is not in this space. Apps must be mapped to routes in the same space.
+
+//2. when the go build is not down to the correct target environment
+//	[APP/PROC/WEB/0] ERR bash: ./hello: cannot execute binary file: Exec format error
+
+//3. use https if you get the below error when you get below error
+    Host Not Found
+    DNS error (the host name of the page you are looking for does not exist) or Server did not accept the connection.
+    Please check that the host name has been spelled correctly.
