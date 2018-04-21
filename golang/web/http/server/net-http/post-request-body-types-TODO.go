@@ -1,12 +1,15 @@
 //accept the request to server with data in body in various ways listed below:
-//1) form data (2 types: (1a) text, (1b) file)
+//1a) form data: text
+//1b) form data: file
 //2) x-www-form-urlencoded
-//3) raw data: json or any plain text formats
+//3.1) raw data: plain text
+//3.2) raw data: json
 //4) binary
 //5) multipart file attachment?????
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -14,11 +17,15 @@ import (
 )
 
 func main() {
+
+	http.HandleFunc("/rawdatajson", rawDataJsonHandler)
 	http.HandleFunc("/formdatafile", handlerFormDataFileType)
 	http.ListenAndServe(":8080", nil)
 }
 
-//1b) form data file type server example
+// 1a) form data: text
+
+// 1b) form data: file (or multipart example?)
 // NOTE: tested with client code "github.com\muly\howto\golang\web\http\client\net-http\post-request-body-types-TODO.go"
 // But not tested with Postman or some other REST client.
 func handlerFormDataFileType(w http.ResponseWriter, r *http.Request) {
@@ -51,3 +58,26 @@ func processFile(f io.Reader) error {
 	fmt.Println(string(b))
 	return nil
 }
+
+//2) x-www-form-urlencoded
+
+//3.1) raw data: plain text
+
+//3.2) raw data: json
+// input json data example: {"name":"golang"}
+func rawDataJsonHandler(w http.ResponseWriter, r *http.Request) {
+	d := struct {
+		Name string `json:"name"`
+	}{}
+
+	err := json.NewDecoder(r.Body).Decode(&d)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	fmt.Fprintf(w, "name is %v", d.Name)
+}
+
+//4) binary
+
+//5) multipart file attachment?????
