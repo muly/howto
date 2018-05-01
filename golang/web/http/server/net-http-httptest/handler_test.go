@@ -8,21 +8,21 @@ import (
 
 func Test_Handler(t *testing.T) {
 
-	req, err := http.NewRequest("GET", "/hello", nil)
+	r, err := http.NewRequest("GET", "/hello", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(req.URL)
+	t.Log(r.URL)
 	//.Println(req.URL)
 
-	resp := httptest.NewRecorder()
-	handler(resp, req)
+	w := httptest.NewRecorder()
+	handler(w, r)
 
-	t.Log(resp.Body)
-	t.Log(resp.Code)
+	t.Log(w.Body)
+	t.Log(w.Code)
 
-	if resp.Code != http.StatusOK {
-		t.Errorf("response test failed. wanted %v, but got %v", http.StatusOK, resp.Code)
+	if w.Code != http.StatusOK {
+		t.Errorf("response test failed. wanted %v, but got %v", http.StatusOK, w.Code)
 		return
 	}
 
