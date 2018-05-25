@@ -5,7 +5,6 @@ import "fmt"
 //Assumptions:
 // no duplicates
 
-
 func main() {
 
 	a := []int{1, 2, 3, 4, 5, 6, 7}
@@ -14,21 +13,21 @@ func main() {
 	fmt.Println(isRotation(a, b))
 
 }
-func isRotation(aa []int, bb []int)bool{
-	if len(aa) != len(bb){
+func isRotation(aa []int, bb []int) bool {
+	if len(aa) != len(bb) {
 		return false
 	}
 	isrotation := false
-	ai, bi := 0,0
-	for ai < len(aa){
-		if aa[ai]==bb[bi]{
+	ai, bi := 0, 0
+	for ai < len(aa) {
+		if aa[ai] == bb[bi] {
 			isrotation = true
 			ai++
 			bi++
-		}else{
+		} else {
 			isrotation = false
 			bi++
-			if bi == len(bb){
+			if bi == len(bb) {
 				bi = 0
 			}
 		}

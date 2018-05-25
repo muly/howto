@@ -11,20 +11,20 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	
+
 	//Note: match the data type with the server function's parameters
 	err = c.Call("MyServer.Hello", 0, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
-	} 
+	}
 	fmt.Println("server Hello function executed")
 
-	out :="" 
+	out := ""
 	err = c.Call("MyServer.Echo", "Good morning", &out)
 	if err != nil {
 		fmt.Println(err)
 		return
-	} 
+	}
 	fmt.Println("server Echo function executed. received:", out)
 }

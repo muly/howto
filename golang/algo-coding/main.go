@@ -6,8 +6,8 @@ import (
 
 func main() {
 	fmt.Println("hello")
-	a := []int{1,3,4,6,7,9,10}
-	b := []int{1,2,4,5,9,10}
+	a := []int{1, 3, 4, 6, 7, 9, 10}
+	b := []int{1, 2, 4, 5, 9, 10}
 	fmt.Println(commonOmxn(a, b))
 
 	//a1:=[]int{9,3,9,3,2,3}

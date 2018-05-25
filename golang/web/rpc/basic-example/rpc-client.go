@@ -11,12 +11,12 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	
+
 	//Note: match the data type with the server function's parameters
 	err = c.Call("RpcServer.Hello", 0, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
-	} 
+	}
 	fmt.Println("server function executed")
 }

@@ -2,5 +2,3 @@
 // typically we dont need all the headers, footers, side navs, etc.
 
 package main
-
-

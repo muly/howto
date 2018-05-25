@@ -1,4 +1,4 @@
-// this program is very likely to panic because of race conditions. 
+// this program is very likely to panic because of race conditions.
 // Note: maps are not threadsafe. see the "map-mutex.go" for the solution using mutex
 // 		fatal error: concurrent map writes
 //
@@ -21,8 +21,8 @@ func main() {
 	m = map[string]int{}
 
 	for i := 0; i < 10; i++ {
-		
-	//fmt.Println(i)
+
+		//fmt.Println(i)
 		wg.Add(1)
 		go writeToMap(i)
 	}

@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"golang.org/x/net/html"
-	"strings"
 	"io"
+	"strings"
 )
 
 //const url = `https://www.ziprecruiter.com/jobs/cybercoders-befe3473/senior-software-engineer-golang-0dbe59d6?source=ziprecruiter-jobs-site`
@@ -30,15 +30,14 @@ func main() {
 
 	fmt.Println(allText)
 
-
 }
 
-func html2rawtext(htmlReader io.Reader)string {
+func html2rawtext(htmlReader io.Reader) string {
 
 	z := html.NewTokenizer(htmlReader)
 
-	alltext := func (z *html.Tokenizer)[]string {
-		var alltext  []string
+	alltext := func(z *html.Tokenizer) []string {
+		var alltext []string
 		for {
 
 			tt := z.Next()
@@ -64,7 +63,6 @@ func html2rawtext(htmlReader io.Reader)string {
 
 	return cleanNonPrintChar(strings.Join(alltext, " "))
 }
-
 
 func cleanNonPrintChar(text string) string {
 

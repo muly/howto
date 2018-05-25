@@ -15,18 +15,18 @@ type MyServer struct{}
 // 	third input parameter must be pointer.
 // and one output parameter, and its return type must be error
 
-func (MyServer) Hello(args int64, reply *int64)error{
+func (MyServer) Hello(args int64, reply *int64) error {
 	fmt.Println("Hello World")
 	return nil
 }
 
-func (MyServer) Echo(args string, reply *string)error{
+func (MyServer) Echo(args string, reply *string) error {
 	fmt.Println("received & echoed:", args)
 	*reply = args
 	return nil
 }
 
-func main(){
+func main() {
 	err := rpc.Register(new(MyServer))
 	if err != nil {
 		fmt.Println(err)
@@ -45,4 +45,3 @@ func main(){
 		go rpc.ServeConn(c)
 	}
 }
-
