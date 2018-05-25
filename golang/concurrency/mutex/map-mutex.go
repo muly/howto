@@ -4,13 +4,11 @@
 // run using -race flag like below. you will note that the there is no race condition, unlike the other example: map-race.go
 // 		go run -race map-mutex.go
 
-
 package main
 
 import (
 	"fmt"
 	"sync"
-
 )
 
 var m map[string]int
@@ -22,7 +20,7 @@ func main() {
 
 	for i := 0; i < 10; i++ {
 
-	fmt.Println(i)
+		fmt.Println(i)
 		wg.Add(1)
 		go writeToMap(i)
 	}

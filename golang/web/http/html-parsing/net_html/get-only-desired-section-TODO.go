@@ -46,7 +46,7 @@ func main() {
 func crawl(b io.Reader, rtp []html.Token) html.Token {
 	z := html.NewTokenizer(b)
 	for i, m := range rtp {
-		fmt.Println("compare with",m.Type, m.Data, m.Attr)
+		fmt.Println("compare with", m.Type, m.Data, m.Attr)
 		for {
 			tt := z.Next()
 			if tt == html.ErrorToken {
@@ -56,7 +56,7 @@ func crawl(b io.Reader, rtp []html.Token) html.Token {
 			//if t.Data =="div" {
 			//	fmt.Println(t.Type, t.Data, t.Attr)
 			//}
-			fmt.Println("	match",t.Type, t.Data, t.Attr)
+			fmt.Println("	match", t.Type, t.Data, t.Attr)
 			if isMatchingToken(t, m) {
 				fmt.Println("	matched *************")
 				if i == len(rtp)-1 {
@@ -94,7 +94,7 @@ func isMatchingAttr(aa []html.Attribute, bb []html.Attribute) bool {
 	ma := sliceAttribute2map(aa)
 	mb := sliceAttribute2map(bb)
 	//fmt.Println("		ma",ma)
-	fmt.Println("		mb",mb)
+	fmt.Println("		mb", mb)
 
 	for a, acnt := range ma {
 		if bcnt, exists := mb[a]; !exists || acnt != bcnt {

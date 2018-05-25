@@ -15,12 +15,12 @@ type RpcServer struct{}
 // 	third input parameter must be pointer.
 // and one output parameter, and its return type must be error
 
-func (RpcServer) Hello(args int64, reply *int64)error{
+func (RpcServer) Hello(args int64, reply *int64) error {
 	fmt.Println("Hello World")
 	return nil
 }
 
-func main(){
+func main() {
 	err := rpc.Register(new(RpcServer))
 	if err != nil {
 		fmt.Println(err)
@@ -39,4 +39,3 @@ func main(){
 		go rpc.ServeConn(c)
 	}
 }
-

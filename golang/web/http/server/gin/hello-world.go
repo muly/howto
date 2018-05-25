@@ -15,12 +15,10 @@ var router *gin.Engine
 
 func showHelloPage(c *gin.Context) {
 
-	content := gin.H{"Hello":"world"}
+	content := gin.H{"Hello": "world"}
 
 	c.JSON(200, content)
 }
-
-
 
 func main() {
 
@@ -31,7 +29,3 @@ func main() {
 	// Start serving the application
 	router.Run(":8080")
 }
-
-
-
-
