@@ -1,0 +1,10 @@
+
+Install Go
+Install Git
+Install any IDE (Visual Studio Code)
+Create GOPATH env variable
+    Note: no need to set this env variable if the default location is used to setup workspace (which is ~/go/).
+Create GOROOT env variable if not already created by the install go step. 
+    Note: no need to set this env variable if the default location is used to install go (which is ??????? on mac, and C:\go on windows).
+Create src folder in GOPATH
+(in src folder) Create one new folder for each project
