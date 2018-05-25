@@ -1,0 +1,8 @@
+
+go version          
+go env              
+go run <go filename> to run a single file
+go install          to build and create executable file (in the bin) for the complete project/package
+go build		    to just build (useful to see if there are any compilation errors)
+go fmt			    to format go code
+

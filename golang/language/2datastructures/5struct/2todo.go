@@ -19,10 +19,9 @@ func main() {
 	c.emails = []string{"email1", "email2"}
 
 	fmt.Println(c)
-	
-	for _, v := range c.emails{
+
+	for _, v := range c.emails {
 		fmt.Println(v)
 	}
 
 }
-
