@@ -22,7 +22,6 @@ func main() {
 	// because array size is part of the array type
 	var myarray [4]int           // declare
 	myarray = [4]int{1, 2, 3, 5} // initialize
-	myarray[0] = 100             // set value in one index position
 
 	// Note: array of one size is not compatible with array of another type
 	var myarray2 [5]int

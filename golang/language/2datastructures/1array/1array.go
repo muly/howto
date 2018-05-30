@@ -55,7 +55,7 @@ func main() {
 
 	// declaring with a size but initialiazing with more elements.
 	//
-	//myarray6 := [3]int{10, 11, 12, 13, 14} //COMPILER ERROR: array index 3 out of bounds [0:3]
-	//fmt.Println("myarray6",myarray6, len(myarray6), cap(myarray6))
+	// myarray6 := [3]int{10, 11, 12, 13, 14} //COMPILER ERROR: array index 3 out of bounds [0:3]
+	// fmt.Println("myarray6",myarray6, len(myarray6), cap(myarray6))
 
 }
