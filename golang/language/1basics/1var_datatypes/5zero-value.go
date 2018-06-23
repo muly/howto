@@ -14,6 +14,7 @@ func main() {
 	var i int     // 0
 	var s string  // blank
 	var f float32 // 0
+	var b bool	// false
 
-	fmt.Println(i, s, f)
+	fmt.Println(i, s, f, b)
 }
