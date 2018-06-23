@@ -1,9 +1,9 @@
 // example program to demonstrate the use of Encode, Decode functionality of `encoding/json` package
-//// encode
+//// encode: from struct
 //////	to stdout
 //////	to json file
 //////	to http ResponseWriter as json
-//// decode:
+//// decode: to struct
 //////	from a json string
 //////	from a json file
 //////	from json data in http request
