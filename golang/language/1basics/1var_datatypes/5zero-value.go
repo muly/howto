@@ -1,8 +1,9 @@
+// demonstrate zero values (for different base types)
+
 //what is zero value?
 
 //what are the zero values for different types?
 
-// go is strictly typed language
 package main
 
 import (

@@ -5,7 +5,6 @@
 //3.1) raw data: plain text
 //3.2) raw data: json
 //4) binary
-//5) multipart file attachment?????
 package main
 
 import (
@@ -25,7 +24,7 @@ func main() {
 
 // 1a) form data: text
 
-// 1b) form data: file (or multipart example?)
+// 1b) form data: file (as multipart file)
 // NOTE: tested with client code "github.com\muly\howto\golang\web\http\client\net-http\post-request-body-types-TODO.go"
 // But not tested with Postman or some other REST client.
 func handlerFormDataFileType(w http.ResponseWriter, r *http.Request) {
