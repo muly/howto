@@ -13,7 +13,7 @@ var dbConn *gorm.DB
 
 var (
 	user     string = "root"
-	secret   string = "root"
+	secret   string = "password"
 	dbip     string = "localhost"
 	dbport   string = "3306"
 	dbschema string = "dev"
