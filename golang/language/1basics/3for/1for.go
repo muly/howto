@@ -9,21 +9,21 @@ import (
 
 func main() {
 
-	// default syntax
-	// for declare/init; check; inc{}
-
-	fmt.Println("i")
+	//
+	fmt.Println("for declare/init; check; inc{}")
 	for i := 0; i <= 10; i++ {
 		fmt.Println(i)
 	}
 
-	fmt.Println("j")
+	//
+	fmt.Println("for ;check; inc{}")
 	j := 0
 	for ; j <= 10; j++ {
 		fmt.Println(j)
 	}
 
-	fmt.Println("k")
+	//
+	fmt.Println("for ; ; inc{}")
 	k := 0
 	for ; ; k++ {
 		if k > 10 {
@@ -32,7 +32,8 @@ func main() {
 		fmt.Println(k)
 	}
 
-	fmt.Println("l")
+	//
+	fmt.Println("break")
 	l := 0
 	for {
 		if l > 10 {
@@ -42,16 +43,18 @@ func main() {
 		l++
 	}
 
-	fmt.Println("m")
-	for m:=0; m<=10; m++{
+	//
+	fmt.Println("continue")
+	for m := 0; m <= 10; m++ {
 		if m == 5 {
-			continue // skips the rest of the iteration and jumps to next iteration
+			continue // skips the rest of the code in the iteration and jumps to next iteration
 		}
 		fmt.Println(m)
 	}
 
-	// infinite loop, run with caution, use ctrl+c to kill the program to stop
-	// for{
+	//
+	// fmt.Println("for{} :infinite loop") // run with caution, use ctrl+c to kill the program to stop
+	// for {
 	// 	fmt.Println("hello")
 	// }
 
