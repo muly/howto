@@ -1,5 +1,5 @@
 //example to demonstrate reading query parameters using net/http library. 
-// example: http://localhost:8080/?country=usa&state=ca
+// example: http://localhost:8080/?country=usa&state=ca&zip=12345
 
 package main
 
@@ -26,9 +26,14 @@ func queryParamHandler(w http.ResponseWriter, r *http.Request) {
 		state = val[0]
 	}
 	
-	//TODO: any other methods? from other libraries, which support without having to worry about index (like vars[0])
-	
-	w.Write([]byte(country+","+state))
+	// method 3:
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	} 
+	zip := r.Form.Get("zip") // this gets the first value only (in case if there are multiple zip query params like http://localhost:8080/?country=usa&state=ca&zip=45678&zip=12345)
+
+	w.Write([]byte(country+","+state+","+zip))
 }
 
 func main() {
