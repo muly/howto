@@ -17,14 +17,20 @@ import (
 
 func main() {
 
-	http.HandleFunc("/rawdatajson", rawDataJsonHandler)
-	http.HandleFunc("/formdatafile", handlerFormDataFileType)
+	//TODO: need to run and test these handlers
+	http.HandleFunc("/formdatatext", handlerFormDataText)
+	http.HandleFunc("/formdatafile", handlerFormDataFileType) // use form/multi form iption to upload a json file
+	http.HandleFunc("/rawdatajson", rBodyJsonHandler) // paste the json content 
+	http.HandleFunc("/binaryjson", rBodyJsonHandler) // attach the json file with the request
 	http.ListenAndServe(":8080", nil)
 }
 
 // 1a) form data: text
+func handlerFormDataText(w http.ResponseWriter, r *http.Request) {
+// TODO
+}
 
-// 1b) form data: file (as multipart file)
+// 1b) form data: file (also as multipart file)
 // NOTE: tested with client code "github.com\muly\howto\golang\web\http\client\net-http\post-request-body-types-TODO.go"
 // But not tested with Postman or some other REST client.
 func handlerFormDataFileType(w http.ResponseWriter, r *http.Request) {
@@ -63,8 +69,12 @@ func processFile(f io.Reader) error {
 //3.1) raw data: plain text
 
 //3.2) raw data: json
-// input json data example: {"name":"golang"}
-func rawDataJsonHandler(w http.ResponseWriter, r *http.Request) {
+// example input json data: {"name":"golang"}
+//4) binary
+// example input json data in the file: {"name":"golang"}
+func rBodyJsonHandler(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	
 	d := struct {
 		Name string `json:"name"`
 	}{}
@@ -77,6 +87,3 @@ func rawDataJsonHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "name is %v", d.Name)
 }
 
-//4) binary
-
-//5) multipart file attachment?????
