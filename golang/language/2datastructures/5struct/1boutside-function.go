@@ -1,15 +1,16 @@
-// struct defined inside a func
+// struct defined outside a func
+// scope: within the package
 package main
 
 import (
 	"fmt"
 )
 
-func main() {
+type customer struct {
+	fname, lname, email string
+}
 
-	type customer struct {
-		fname, lname, email string
-	}
+func main() {
 
 	var c1 customer // declare
 
@@ -18,9 +19,12 @@ func main() {
 
 	c1 = customer{fname: "abc", lname: "xyz"} // initialize whole struct
 
+	c1 = customer{"abc", "xyz", "abc@email.com"} // initialize whole struct without having to mention the field
+
 	fmt.Println(c1.fname) // access one field at a time
 	fmt.Println(c1)       // access the complete struct
 
+	//
 	var c2 customer = customer{fname: "abc", lname: "xyz"} // declare and init at the same time
 
 	var c3 = customer{fname: "abc", lname: "xyz"} // declare and init at the same time
