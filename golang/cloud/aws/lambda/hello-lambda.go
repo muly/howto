@@ -52,7 +52,44 @@ func main() {
 
 }
 
-/* some possible errors, that i have seen
+/* //// DEPLOYMENT STEPS ////
+0. build for linux and zip the executable
+	- GOOS=linux go build -o lamda
+1. login to aws
+2. from IAM roles page: https://console.aws.amazon.com/iam/home?#/roles
+	- create a role
+	- make sure to add "CloudWatchLogsReadOnlyAccess" permission
+	- this role will be used by the below steps while creating the lamda function
+3. go to lamda functions page: https://console.aws.amazon.com/lambda/home
+	- click on "Create function" button
+	- Choose "Author from scratch" template
+	- fill the fields.
+		-- choose Golang runtime
+		-- for Role, choose the existing role, created as part of the previous steps
+	- click "Create Function" button. you have technically created the lamda function, you now need to configure it)
+4. configure the lamda function
+	- under "Function code" section:
+		-- choose the "Upload a .zip file" type
+		-- choose Go runtime
+		-- for "Handler" type ......... TODO:
+		-- using "Upload" button, upload the binary zip file generated in previous steps.
+	- using "Designer" section,
+		-- add "API Gateway" trigger,
+		-- configure it:
+			--- choose "Create a new API"
+			--- choose the desired security. for testing you can choose "Open" security
+			--- click "Add"
+	- "save" changes
+5. Test
+	- find the endpoint/api trigger url
+	- using your favorite rest client, hit the api endpoint
+	- TODO: what http method to use? any data yo be sent in the body?
+	  when I tired with "GET" method, I got below error. need more debugging
+	  	{"message": "Internal server error"}
+*/
+
+/* //// POSSIBLE ERRORS ////
+here are some possible errors, that i have seen
 
 // when uploading the binary in aws console, if the name mentioned in the "Handler" is not same as that of binary built (in the zip file being uploaded)
 {
