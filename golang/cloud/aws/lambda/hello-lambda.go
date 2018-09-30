@@ -57,9 +57,12 @@ func main() {
 	- GOOS=linux go build -o lamda
 1. login to aws
 2. from IAM roles page: https://console.aws.amazon.com/iam/home?#/roles
-	- create a role
-	- make sure to add "CloudWatchLogsReadOnlyAccess" permission
-	- this role will be used by the below steps while creating the lamda function
+	- "create role" button
+	- "AWS Service" as type
+	- for "Choose the service that will use this role" choose "Lambda". then clock Next.
+	- on permissions page, make sure to add "CloudWatchLogsReadOnlyAccess" permission
+	- on Review page, name the role, and then create the role.
+	- Note: this role will be used by the below steps while creating the lamda function
 3. go to lamda functions page: https://console.aws.amazon.com/lambda/home
 	- click on "Create function" button
 	- Choose "Author from scratch" template
@@ -71,7 +74,7 @@ func main() {
 	- under "Function code" section:
 		-- choose the "Upload a .zip file" type
 		-- choose Go runtime
-		-- for "Handler" type ......... TODO:
+		-- for "Handler" field, type the name of the executable in the zip file uploaded
 		-- using "Upload" button, upload the binary zip file generated in previous steps.
 	- using "Designer" section,
 		-- add "API Gateway" trigger,
@@ -83,9 +86,12 @@ func main() {
 5. Test
 	- find the endpoint/api trigger url
 	- using your favorite rest client, hit the api endpoint
-	- TODO: what http method to use? any data yo be sent in the body?
-	  when I tired with "GET" method, I got below error. need more debugging
-	  	{"message": "Internal server error"}
+	- make sure to pass the json of id, value (see go code)
+		{
+		"id": 1,
+		"value": "test1"
+		}
+	- TODO: tested from asw sucessfully, but need to test gtom rest client
 */
 
 /* //// POSSIBLE ERRORS ////
@@ -96,6 +102,7 @@ here are some possible errors, that i have seen
   "errorMessage": "fork/exec /var/task/lambda: no such file or directory",
   "errorType": "PathError"
 }
+// same error as above is possible when the uploaded zip file has a folder within
 // when not build for linux. if NOT done like this GOOS=linux go build
 {
        "errorMessage":"fork/exec /var/task/lambda: exec format error",
