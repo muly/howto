@@ -26,14 +26,17 @@ func queryParamHandler(w http.ResponseWriter, r *http.Request) {
 		state = val[0]
 	}
 	
-	// method 3:
+	// method 3: no need to parse the form first
+	phone:= r.FormValue("phone")
+	
+	// method 4:
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	} 
 	zip := r.Form.Get("zip") // this gets the first value only (in case if there are multiple zip query params like http://localhost:8080/?country=usa&state=ca&zip=45678&zip=12345)
 
-	w.Write([]byte(country+","+state+","+zip))
+	w.Write([]byte(country+","+state+","+zip+","+phone))
 }
 
 func main() {
