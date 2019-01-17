@@ -14,7 +14,8 @@ import (
 )
 
 var m map[string]int
-var wg = sync.WaitGroup{}
+
+var wg = sync.WaitGroup{} // wait group is used to wait at the end of the main process for all the goroutines to complete their work
 
 func main() {
 
@@ -24,7 +25,7 @@ func main() {
 
 		//fmt.Println(i)
 		wg.Add(1)
-		go writeToMap(i)
+		go writeToMap("A", i)
 	}
 
 	wg.Wait()
@@ -32,7 +33,8 @@ func main() {
 
 }
 
-func writeToMap(i int) {
-	m["A"] = i
+func writeToMap(s string, i int) {
+	m[s] = i
+	
 	wg.Done()
 }
