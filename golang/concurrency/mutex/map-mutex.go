@@ -13,7 +13,8 @@ import (
 
 var m map[string]int
 var mutex sync.Mutex
-var wg = sync.WaitGroup{}
+
+var wg = sync.WaitGroup{} // wait group is used to wait at the end of the main process for all the goroutines to complete their work
 
 func main() {
 	m = map[string]int{}
@@ -22,7 +23,7 @@ func main() {
 
 		fmt.Println(i)
 		wg.Add(1)
-		go writeToMap(i)
+		go writeToMap("A",i)
 	}
 
 	wg.Wait()
@@ -30,9 +31,10 @@ func main() {
 
 }
 
-func writeToMap(i int) {
+func writeToMap(s string, i int) {
 	mutex.Lock()
-	m["A"] = i
+	m[s] = i
 	mutex.Unlock()
+	
 	wg.Done()
 }
