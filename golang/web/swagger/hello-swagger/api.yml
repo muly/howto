@@ -1,3 +1,73 @@
 # design below two endpoints 
 ## [POST] /customer : to create a customer record
 ## [GET] /customer : to query the customers using the email (string), status (ACTIVE, DELETED, INACTIVE)
+---
+#Metadata - the overall structure of API specification
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: API-Customers
+  description: Customers using APIs
+
+#Base url
+host: localhost:8080
+basePath: /
+schemes: 
+ - https
+
+#MIME types - the root level definitions can be overridden in individual operations
+consumes: 
+ - application/json
+produces: 
+ - application/json
+
+#Input and Output Models
+definitions:
+  customer:
+   properties:
+     id:
+      type: integer
+     name:
+      type: string
+     email:
+      type: string
+      format: email
+     status:
+      type: string
+   #properties required
+   required: 
+    - id
+
+#Paths - define individual end points
+paths:
+  /customer:
+   post:
+     summary: Post new customer.
+     parameters:
+      - in: body
+        name: id
+        required: true
+        schema:
+         $ref: '#/definitions/customer'
+        description: id of the new customer
+     description: Creates a new customer using APIs
+     responses:
+       201:
+         description: New customer created
+  #/customer/{email}:
+   get:
+     summary: Get specific customer.
+     parameters:
+      - in: body
+        name: email
+        #type: integer
+        required: true
+        schema:
+         $ref: '#/definitions/customer'
+     description: Fetches the customer specified in path
+     responses:
+       302:
+         description: Customer found
+         schema:
+          $ref: '#/definitions/customer'
+   
