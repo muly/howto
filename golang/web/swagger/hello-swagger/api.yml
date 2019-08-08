@@ -1,0 +1,3 @@
+# design below two endpoints 
+## [POST] /customer : to create a customer record
+## [GET] /customer : to query the customers using the email (string), status (ACTIVE, DELETED, INACTIVE)
