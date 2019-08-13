@@ -7,7 +7,7 @@ swagger: '2.0'
 info:
   version: 0.0.1
   title: API-Customers
-  description: Customers using APIs
+  description: Customers data
 
 #Base url
 host: localhost:8080
@@ -32,11 +32,12 @@ definitions:
      email:
       type: string
       format: email
+      pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.com$'
      status:
       type: string
+      enum: [Active,Deleted,Inactive]
    #properties required
-   required: 
-    - id
+   required: [id,name,email,status]
 
 #Paths - define individual end points
 paths:
@@ -50,24 +51,30 @@ paths:
         schema:
          $ref: '#/definitions/customer'
         description: id of the new customer
-     description: Creates a new customer using APIs
+     description: Creates a new customer
      responses:
        201:
          description: New customer created
+       406:
+        description: Not Acceptable
+       500:
+        description: Internal Server Error
   #/customer/{email}:
    get:
-     summary: Get specific customer.
-     parameters:
-      - in: body
-        name: email
-        #type: integer
-        required: true
-        schema:
-         $ref: '#/definitions/customer'
-     description: Fetches the customer specified in path
-     responses:
-       302:
-         description: Customer found
-         schema:
-          $ref: '#/definitions/customer'
-   
+      summary: get customer email status
+      parameters:
+        - in: query
+          name: email
+          type: string
+          pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.com$'
+      responses:
+        200:
+          description: OK
+        302:
+          description: Found
+          schema:
+            $ref: '#/definitions/customer'
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
