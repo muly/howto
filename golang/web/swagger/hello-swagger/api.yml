@@ -46,7 +46,7 @@ paths:
      summary: Post new customer.
      parameters:
       - in: body
-        name: id
+        name: customer
         required: true
         schema:
          $ref: '#/definitions/customer'
