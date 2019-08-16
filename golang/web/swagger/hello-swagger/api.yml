@@ -42,39 +42,37 @@ definitions:
 #Paths - define individual end points
 paths:
   /customer:
-   post:
-     summary: Post new customer.
-     parameters:
-      - in: body
-        name: customer
-        required: true
-        schema:
-         $ref: '#/definitions/customer'
-        description: id of the new customer
-     description: Creates a new customer
-     responses:
-       201:
-         description: New customer created
-       406:
-        description: Not Acceptable
-       500:
-        description: Internal Server Error
-  #/customer/{email}:
-   get:
-      summary: get customer email status
+    post:
+      tags:
+        - postCustomer
+      operationId: postCustomer
       parameters:
-        - in: query
-          name: email
-          type: string
-          pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.com$'
-      responses:
-        200:
-          description: OK
-        302:
-          description: Found
+        - name: customer
+          in: body
+          description: customer to be created
           schema:
             $ref: '#/definitions/customer'
-        404:
-          description: Not Found
+      responses:
+        201:
+         description: Customer created
         500:
           description: Internal Server Error
+  /customer/{email}:
+    get:
+      tags:
+        - getCustomer
+      operationId: getCustomer 
+      parameters: 
+      - name: email
+        in: path
+        type: string
+        format: email
+        pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.com$'
+        description: email of the customer
+        required: true
+      description: customer to be found
+      responses:
+        200:
+          description: Customer found
+        404:
+          description: Customer not found
