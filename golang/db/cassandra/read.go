@@ -12,7 +12,7 @@ import (
 
 func connect() *gocql.Session {
 	cluster := gocql.NewCluster("192.168.1.1", "192.168.1.2", "192.168.1.3")
-	cluster.Keyspace = "mcmp_consumption"
+	cluster.Keyspace = "tweets"
 	cluster.Port = 9042
 	cluster.Consistency = gocql.Quorum
 	cluster.Authenticator = newAuthenticator()
