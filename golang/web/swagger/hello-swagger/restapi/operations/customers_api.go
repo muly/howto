@@ -19,8 +19,8 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/pk80/howto/golang/web/swagger/hello-swagger/restapi/operations/get_customer"
-	"github.com/pk80/howto/golang/web/swagger/hello-swagger/restapi/operations/post_customer"
+	"github.com/muly/howto/golang/web/swagger/hello-swagger/restapi/operations/get_customers"
+	"github.com/muly/howto/golang/web/swagger/hello-swagger/restapi/operations/post_customer"
 )
 
 // NewCustomersAPI creates a new Customers instance
@@ -40,8 +40,8 @@ func NewCustomersAPI(spec *loads.Document) *CustomersAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
-		GetCustomerGetCustomerHandler: get_customer.GetCustomerHandlerFunc(func(params get_customer.GetCustomerParams) middleware.Responder {
-			return middleware.NotImplemented("operation GetCustomerGetCustomer has not yet been implemented")
+		GetCustomersGetCustomersHandler: get_customers.GetCustomersHandlerFunc(func(params get_customers.GetCustomersParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetCustomersGetCustomers has not yet been implemented")
 		}),
 		PostCustomerPostCustomerHandler: post_customer.PostCustomerHandlerFunc(func(params post_customer.PostCustomerParams) middleware.Responder {
 			return middleware.NotImplemented("operation PostCustomerPostCustomer has not yet been implemented")
@@ -77,8 +77,8 @@ type CustomersAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
-	// GetCustomerGetCustomerHandler sets the operation handler for the get customer operation
-	GetCustomerGetCustomerHandler get_customer.GetCustomerHandler
+	// GetCustomersGetCustomersHandler sets the operation handler for the get customers operation
+	GetCustomersGetCustomersHandler get_customers.GetCustomersHandler
 	// PostCustomerPostCustomerHandler sets the operation handler for the post customer operation
 	PostCustomerPostCustomerHandler post_customer.PostCustomerHandler
 
@@ -144,8 +144,8 @@ func (o *CustomersAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.GetCustomerGetCustomerHandler == nil {
-		unregistered = append(unregistered, "get_customer.GetCustomerHandler")
+	if o.GetCustomersGetCustomersHandler == nil {
+		unregistered = append(unregistered, "get_customers.GetCustomersHandler")
 	}
 
 	if o.PostCustomerPostCustomerHandler == nil {
@@ -253,7 +253,7 @@ func (o *CustomersAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/customer/{email}"] = get_customer.NewGetCustomer(o.context, o.GetCustomerGetCustomerHandler)
+	o.handlers["GET"]["/customer"] = get_customers.NewGetCustomers(o.context, o.GetCustomersGetCustomersHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)

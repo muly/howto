@@ -12,7 +12,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
-	models "github.com/pk80/howto/golang/web/swagger/hello-swagger/models"
+	models "github.com/muly/howto/golang/web/swagger/hello-swagger/models"
 )
 
 // NewPostCustomerParams creates a new PostCustomerParams object

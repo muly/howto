@@ -10,9 +10,9 @@ import (
 	runtime "github.com/go-openapi/runtime"
 	middleware "github.com/go-openapi/runtime/middleware"
 
-	"github.com/pk80/howto/golang/web/swagger/hello-swagger/restapi/operations"
-	"github.com/pk80/howto/golang/web/swagger/hello-swagger/restapi/operations/get_customer"
-	"github.com/pk80/howto/golang/web/swagger/hello-swagger/restapi/operations/post_customer"
+	"github.com/muly/howto/golang/web/swagger/hello-swagger/restapi/operations"
+	"github.com/muly/howto/golang/web/swagger/hello-swagger/restapi/operations/get_customers"
+	"github.com/muly/howto/golang/web/swagger/hello-swagger/restapi/operations/post_customer"
 )
 
 //go:generate swagger generate server --target ../../hello-swagger --name Customers --spec ../api.yml
@@ -35,9 +35,9 @@ func configureAPI(api *operations.CustomersAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.GetCustomerGetCustomerHandler == nil {
-		api.GetCustomerGetCustomerHandler = get_customer.GetCustomerHandlerFunc(func(params get_customer.GetCustomerParams) middleware.Responder {
-			return middleware.NotImplemented("operation get_customer.GetCustomer has not yet been implemented")
+	if api.GetCustomersGetCustomersHandler == nil {
+		api.GetCustomersGetCustomersHandler = get_customers.GetCustomersHandlerFunc(func(params get_customers.GetCustomersParams) middleware.Responder {
+			return middleware.NotImplemented("operation get_customers.GetCustomers has not yet been implemented")
 		})
 	}
 	if api.PostCustomerPostCustomerHandler == nil {

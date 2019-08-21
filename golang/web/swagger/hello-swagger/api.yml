@@ -13,7 +13,7 @@ info:
 host: localhost:8080
 basePath: /
 schemes: 
- - https
+ - http
 
 #MIME types - the root level definitions can be overridden in individual operations
 consumes: 
@@ -57,14 +57,13 @@ paths:
          description: Customer created
         500:
           description: Internal Server Error
-  /customer/{email}:
     get:
       tags:
-        - getCustomer
-      operationId: getCustomer 
+        - getCustomers
+      operationId: getCustomers 
       parameters: 
       - name: email
-        in: path
+        in: query
         type: string
         format: email
         pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.com$'
@@ -74,5 +73,9 @@ paths:
       responses:
         200:
           description: Customer found
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/customer"
         404:
           description: Customer not found

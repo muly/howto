@@ -6,7 +6,7 @@ Customers data
 
 
     Schemes:
-      https
+      http
     Host: localhost:8080
     BasePath: /
     Version: 0.0.1

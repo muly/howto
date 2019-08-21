@@ -25,7 +25,7 @@ func init() {
     "application/json"
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "swagger": "2.0",
   "info": {
@@ -37,6 +37,38 @@ func init() {
   "basePath": "/",
   "paths": {
     "/customer": {
+      "get": {
+        "description": "customer to be found",
+        "tags": [
+          "getCustomers"
+        ],
+        "operationId": "getCustomers",
+        "parameters": [
+          {
+            "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.com$",
+            "type": "string",
+            "format": "email",
+            "description": "email of the customer",
+            "name": "email",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/customer"
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      },
       "post": {
         "tags": [
           "postCustomer"
@@ -58,34 +90,6 @@ func init() {
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/customer/{email}": {
-      "get": {
-        "description": "customer to be found",
-        "tags": [
-          "getCustomer"
-        ],
-        "operationId": "getCustomer",
-        "parameters": [
-          {
-            "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.com$",
-            "type": "string",
-            "format": "email",
-            "description": "email of the customer",
-            "name": "email",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Customer found"
-          },
-          "404": {
-            "description": "Customer not found"
           }
         }
       }
@@ -131,7 +135,7 @@ func init() {
     "application/json"
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "swagger": "2.0",
   "info": {
@@ -143,6 +147,38 @@ func init() {
   "basePath": "/",
   "paths": {
     "/customer": {
+      "get": {
+        "description": "customer to be found",
+        "tags": [
+          "getCustomers"
+        ],
+        "operationId": "getCustomers",
+        "parameters": [
+          {
+            "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.com$",
+            "type": "string",
+            "format": "email",
+            "description": "email of the customer",
+            "name": "email",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/customer"
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      },
       "post": {
         "tags": [
           "postCustomer"
@@ -164,34 +200,6 @@ func init() {
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/customer/{email}": {
-      "get": {
-        "description": "customer to be found",
-        "tags": [
-          "getCustomer"
-        ],
-        "operationId": "getCustomer",
-        "parameters": [
-          {
-            "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.com$",
-            "type": "string",
-            "format": "email",
-            "description": "email of the customer",
-            "name": "email",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Customer found"
-          },
-          "404": {
-            "description": "Customer not found"
           }
         }
       }
