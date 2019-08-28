@@ -49,7 +49,7 @@ func main() {
 	//tmpl.Execute(&tpl, data)
 	//fmt.Println(tpl.String())
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpl.Execute(w, persons)
+		tmpl.Execute(w, data)
 	})
 	http.ListenAndServe(":8080", nil)
 }
