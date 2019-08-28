@@ -30,7 +30,7 @@ const dtmpl = `
 
 func main() {
 	p1 := person{"Praveen", "Kumar", "K", 36}
-	p2 := person{"Srinivasulu", "Reddy", "M", 36}
+	p2 := person{"Srinivasa", "Reddy", "M", 36}
 	persons := []person{p1, p2}
 
 	tmpl, err := template.New("dynamic-loop").Parse(dtmpl)
