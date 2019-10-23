@@ -6,18 +6,16 @@ import (
 )
 
 func main() {
-	
-	view:= template.New("") // this creates 1 template with blank name
-	var err error
-	view, err = view.ParseFiles("stpl2.gohtml") // this creates another template with name "stpl2.gohtml"
+	view, err := template.ParseFiles("stpl2.gohtml")
 	if err != nil {
 		panic(err)
 	}
 
+	// tmpl := template.Must(template.ParseFiles("templates/homepage.html", "templates/view.html"))
 	
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		err := view.ExecuteTemplate(w, "stpl2.gohtml", nil) // Note: we need to execute the specific template
+		err := view.Execute(w, nil)
 		if err != nil {
 			panic(err)
 		}
