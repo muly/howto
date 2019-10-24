@@ -1,4 +1,4 @@
-//TODO: simple static template that just reads the temaplate from a constant parses and executes it
+//simple static template that just reads the temaplate from a constant parses and executes it
 package main
 
 import (

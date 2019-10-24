@@ -1,3 +1,4 @@
+//simple static template read from a file, parse and execute it
 package main
 
 import (
@@ -6,16 +7,14 @@ import (
 )
 
 func main() {
-	view, err := template.ParseFiles("stpl2.gohtml")
+	tmpl, err := template.ParseFiles("stpl_single.gohtml")
 	if err != nil {
 		panic(err)
 	}
 
-	// tmpl := template.Must(template.ParseFiles("templates/homepage.html", "templates/view.html"))
-	
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		err := view.Execute(w, nil)
+		err := tmpl.Execute(w, nil)
 		if err != nil {
 			panic(err)
 		}
