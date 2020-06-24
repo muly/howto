@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package uid;
+
+import "google/protobuf/empty.proto";
+
+service Uid{
+    rpc Generate(input) returns (google.protobuf.Empty){}
+}
+
+message input {
+    int32 qty = 1;
+} 
+
+
+
+
