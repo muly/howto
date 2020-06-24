@@ -2,27 +2,25 @@ package main
 
 import (
 	"context"
-	"fmt"
-	"time"
+	"log"
 
 	"github.com/golang/protobuf/ptypes/empty"
 
 	proto "github.com/muly/howto/golang/web/grpc/uid/proto"
 )
 
-type grpcServer struct{}
+type grpcServer struct {
+}
 
 func (grpcServer) Generate(ctx context.Context, input *proto.Input) (*empty.Empty, error) {
-	genTime := time.Now()
-	uids := genUniqueIDs(genTime, input.Qty)
+	uids := genUniqueIDs(input.Qty)
 	for _, uid := range uids {
 		err := dbInsert(uid)
 		if err != nil {
+			log.Fatalln("dbInsert error %#v", err)
 			return nil, err
 		}
 	}
-	for _, uid := range uids {
-		fmt.Println(uid)
-	}
+
 	return &empty.Empty{}, nil
 }

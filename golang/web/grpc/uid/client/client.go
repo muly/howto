@@ -22,7 +22,7 @@ func main() {
 
 	ctx := context.TODO()
 
-	a := uid.Input{Qty: 5000}
+	a := uid.Input{Qty: 4096}
 	_, err = c.Generate(ctx, &a)
 	if err != nil {
 		fmt.Println(err)
