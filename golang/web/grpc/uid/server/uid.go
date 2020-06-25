@@ -21,7 +21,7 @@ const wait = 10 * time.Millisecond // need to add this to config
 var state uid
 
 func genUniqueIDs(num int64) []string {
-	var ids []string
+	ids := make([]string, 0, num)
 
 	for i := num; i > 0; i-- {
 		now := time.Now().Unix()
@@ -63,6 +63,7 @@ func waitUntillNextSec(mainStart int64) {
 }
 
 func dbInsert(key string) error {
+	//TODO: need to reduce this to single function call instead of 2 (find & upsert)
 	//insert should fail if the key already exists
 	if n, err := state.db.FindId(key).Count(); err != nil {
 		return err

@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	qty = 4294967295
+	qty = 100
 )
 
 func main() {

@@ -40,4 +40,7 @@ external references:
     
 
 
-
+roadmap:
+    1) need to handle TODOs recorded in the code
+    2) larger number of IDs requested will result in longer execution time: this is because we are using the unix timestamp in the id of when the id is generated. also we only have 12 bits to maintain the counter of IDs generated within a second. that limits the number of uid generated to 4096 per minute, and so larger request means longer execution time. need a better approach
+    
