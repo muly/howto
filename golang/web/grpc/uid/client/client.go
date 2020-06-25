@@ -2,11 +2,15 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"google.golang.org/grpc"
 
 	uid "github.com/muly/howto/golang/web/grpc/uid/proto"
+)
+
+const (
+	qty = 4294967295
 )
 
 func main() {
@@ -15,19 +19,19 @@ func main() {
 
 	conn, err := grpc.Dial("localhost:5050", opts...)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
 	c := uid.NewUidClient(conn)
 
 	ctx := context.TODO()
 
-	a := uid.Input{Qty: 4096}
+	a := uid.Input{Qty: qty}
 	_, err = c.Generate(ctx, &a)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
 
-	fmt.Println("processed")
+	log.Printf("generated %d uids", qty)
 }

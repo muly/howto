@@ -20,10 +20,10 @@ const wait = 10 * time.Millisecond // need to add this to config
 
 var state uid
 
-func genUniqueIDs(num int32) []string {
+func genUniqueIDs(num int64) []string {
 	var ids []string
 
-	for i := int32(0); i < num; i++ {
+	for i := num; i > 0; i-- {
 		now := time.Now().Unix()
 		ids = append(ids, getUniqueID(now))
 	}
@@ -35,7 +35,7 @@ func getUniqueID(now int64) string {
 	state.Lock()
 	defer state.Unlock()
 	// once the 12 bits are filled, wait for next second and reset the counter
-	if state.increment >= 4095 {
+	if state.increment >= 4095 { // Note: 4095 is the max num corresponding to the 12 bits allocated for the sequence number for uid to be used within the second.
 		waitUntillNextSec(state.mainStart)
 		now = time.Now().Unix()
 		state.increment = 0

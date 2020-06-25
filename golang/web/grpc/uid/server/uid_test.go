@@ -23,6 +23,14 @@ func Test_genUniqueID(t *testing.T) {
 				now:       1593008100,
 			},
 			want: "000005ef35fe4001",
+		}, {
+			name: "start time is present + 1",
+			args: args{
+				mainStart: 1593008100,
+				increment: 1,
+				now:       1593008100,
+			},
+			want: "000005ef35fe4002",
 		},
 		{
 			name: "start time is past",

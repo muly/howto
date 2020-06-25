@@ -11,27 +11,33 @@ import (
 	proto "github.com/muly/howto/golang/web/grpc/uid/proto"
 )
 
-func Init() uid {
-	var myStruct uid
+const (
+	mongoHostUrl = "mongodb://uid_mongodb_1:27017"
+	mongoDb      = "tasks"
+	mongoTable   = "uid"
+	// Note: use localhost instead of uid_mongodb_1 when using a mongodb installed on localhost.
+	// in this case mongodb is used from the docker image run using docker-compose
+)
 
+func Init() uid {
 	// db connection
-	url := "mongodb://localhost:27017"
-	session, err := mgo.Dial(url)
+	session, err := mgo.Dial(mongoHostUrl)
 	if err != nil {
-		log.Fatalln("Dial url error :", err)
+		log.Fatalln("mgo.Dial error :", err)
 		os.Exit(1)
 	}
-	myStruct.session = session
 
-	// collection object
-	myStruct.db = myStruct.session.DB("tasks").C("uid")
-
-	return myStruct
+	return uid{
+		session: session,
+		db:      session.DB(mongoDb).C(mongoTable),
+	}
 }
 
 func main() {
 	state = Init()
 	defer state.session.Close()
+
+	log.Printf("executing server...")
 
 	myServer := grpcServer{}
 	s := grpc.NewServer()
