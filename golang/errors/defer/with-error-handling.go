@@ -23,6 +23,8 @@ func main() {
 		}
 	}()
 
+	
+	
 	err = fmt.Errorf("some random error")
 	if err != nil {
 		log.Printf("received error %v", err)
