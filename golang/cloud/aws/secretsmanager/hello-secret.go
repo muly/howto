@@ -67,6 +67,6 @@ func getSecret(sess *session.Session, secretName string, region string) (string,
 func main() {
 	sess, _ := getAwsSession()
 
-	h, b, _ := getSecret(sess, "traefik-fa", region)
+	h, b, _ := getSecret(sess, "my-secrets", region)
 	fmt.Println(h, b)
 }
