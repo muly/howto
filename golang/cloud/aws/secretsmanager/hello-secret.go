@@ -1,3 +1,5 @@
+// TODO: check for syntax errors
+
 package main
 
 import (
@@ -53,13 +55,13 @@ func getSecret(sess *session.Session, secretName string, region string) (string,
 	}
 
 	payload := struct {
-		User  string `json:"hash-key,omitempty"`
-		Email string `json:"block-key,omitempty"`
+		User  string `json:"user,omitempty"`
+		Pwd string `json:"pwd,omitempty"`
 	}{}
 	if err := json.Unmarshal([]byte(*result.SecretString), &payload); err != nil {
 		return "", "", err
 	}
-	return payload.HashKey, payload.BlockKey, nil
+	return payload.User, payload.Pwd, nil
 }
 
 func main() {
