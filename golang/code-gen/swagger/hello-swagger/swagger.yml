@@ -1,0 +1,54 @@
+swagger: "2.0"
+info:
+  title: 'Hello'
+  version: '0.0.1'
+schemes:
+    - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /api/students:
+    get:
+      operationId: 'getStudents'
+      produces:
+      - 'text/plain'
+      responses:
+        200:
+          description: 'returns the list of students'
+          schema:
+            type: 'array'
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+  /api/students/{id}:
+    parameters:
+    - type: integer
+      format: int64
+      name: id
+      in: path
+      required: true
+    get:
+      operationId: 'getStudentByID'
+      produces:
+      - 'text/plain'
+      responses:
+        200:
+          description: 'returns the details of a student'
+          schema:
+            $ref: "#/definitions/student_view"
+
+definitions:
+  student_view:
+    title: student view
+    description: student view
+    type: object
+    properties:
+      id:
+        type: number
+      name:
+        type: string
