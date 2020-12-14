@@ -1,9 +1,11 @@
-FROM golang:onbuild as BuildStage
+FROM golang:latest as BuildStage
+RUN mkdir /build
+ADD . /build/
+WORKDIR /build
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
-ADD app /
 
 
 FROM scratch
-WORKDIR /app
-COPY --from=BuildStage app /app/
+WORKDIR /api
+COPY --from=BuildStage /build/app /api/
 CMD ["./app"]
