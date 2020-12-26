@@ -6,12 +6,18 @@ import (
 )
 
 func main() {
+	// initialiazing with some data. can also initialize with empty
+	s1 := mapset.NewSetFromSlice([]interface{}{"Delhi", "Gurgaon"})
 
-	s1 := mapset.NewSetFromSlice([]interface{}{"Delhi", "Gurgaon", "Noida", "Greater Noida", "Ghaziabad", "Manesar", "Faridabad",
-		"Sonipat", "Meerut", "Chandigarh", "Ambala", "Bharatpur", "Mathura", "Rishikesh", "Dehradun",
-		"Haridwar", "Mussoorie"})
+	// adding more values
+	s1.Add("Noida")
+	// adding duplicate values
+	s1.Add("Noida")
 
+	// convert to slice
+	fmt.Println(s1.ToSlice()) // duplicates will be removed
+
+	// check for existance of a value
 	fmt.Println(s1.Contains("Delhi"))
 	fmt.Println(s1.Contains("XYZ"))
-
 }
