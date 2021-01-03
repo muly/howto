@@ -1,6 +1,5 @@
 // cors example
 
-
 package main
 
 import (
@@ -11,7 +10,7 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Header().Set("Access-Control-Allow-Origin", "*") // ******** VERY IMPORTANT ********
-		w.Write([]byte(r.URL.Query().Get("name")+`, hello from api`))
+		w.Write([]byte(r.URL.Query().Get("name") + `, hello from api`))
 	})
 	http.ListenAndServe(":8080", nil)
 }
