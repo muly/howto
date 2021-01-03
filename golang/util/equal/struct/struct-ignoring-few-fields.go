@@ -74,3 +74,4 @@ func main() {
 	fmt.Println(EqualExcept(f1, f2, mapset.NewSet("Name")))
 
 }
+
