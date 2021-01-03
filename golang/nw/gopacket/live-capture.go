@@ -1,4 +1,4 @@
-// 
+//
 package main
 
 import (
@@ -38,6 +38,5 @@ func main() {
 // Notes:
 when tested on mac, got the below error. need to run it different network/computer to see if this programs actually captures anything.
 */
-
 
 // Source: https://www.devdungeon.com/content/packet-capture-injection-and-analysis-gopacket

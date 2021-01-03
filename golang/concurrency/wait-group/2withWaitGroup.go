@@ -22,7 +22,5 @@ func msg(i int) {
 	wg.Done()
 }
 
-
-
-// Output: all the numbers will be printed 
+// Output: all the numbers will be printed
 // because, using wait group, we are waiting for all the go routines to complete execuing before the main function exit

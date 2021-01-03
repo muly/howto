@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 	"os"
-	"time"
 	"os/exec"
+	"time"
 
 	expect "github.com/Netflix/go-expect"
 )
@@ -18,7 +18,7 @@ func main() {
 
 	log.Println("1")
 
-	cmd := exec.Command("sudo","ls")
+	cmd := exec.Command("sudo", "ls")
 	// cmd := exec.Command("echo")
 	cmd.Stdin = c.Tty()
 	cmd.Stdout = c.Tty()
@@ -28,14 +28,12 @@ func main() {
 	// 	c.ExpectEOF()
 	// }()
 
-
 	log.Println("2")
-	
+
 	err = cmd.Start()
 	if err != nil {
 		log.Fatal(err)
 	}
-
 
 	log.Println("3")
 
@@ -45,14 +43,11 @@ func main() {
 	// }
 	// log.Println("######",s)
 
-
 	// s, err := c.Expect(expect.String("Password:"), expect.WithTimeout(2*time.Second))
 	// if err != nil {
 	// 	log.Fatal(err)
 	// }
 	// log.Println("$$$$$$$$$$$$", s)
-
-
 
 	// // time.Sleep(2*time.Second)
 	// c.SendLine("beg9tAll")
@@ -66,13 +61,12 @@ func main() {
 	// c.Expect(expect.String("Password"), expect.WithTimeout(time.Second))
 	log.Println("sucessfully waited")
 
-    // c.Tty().Close()
+	// c.Tty().Close()
 	// time.Sleep(time.Second)
 	c.SendLine("beg9tAll\n")
 
-    // c.Tty().Close()
-    // c.ExpectEOF()
-
+	// c.Tty().Close()
+	// c.ExpectEOF()
 
 	err = cmd.Wait()
 	if err != nil {

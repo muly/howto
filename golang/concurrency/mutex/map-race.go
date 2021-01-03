@@ -35,6 +35,6 @@ func main() {
 
 func writeToMap(s string, i int) {
 	m[s] = i
-	
+
 	wg.Done()
 }

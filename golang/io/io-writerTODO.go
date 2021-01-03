@@ -2,14 +2,14 @@
 
 package main
 
-import(
-	"os"
-	"io"
+import (
 	"fmt"
+	"io"
+	"os"
 )
 
-func main(){
-	filename :=`/Users/srinivasamuly/go/src/github.com/muly/howto/golang/io/io-writer.go`
+func main() {
+	filename := `/Users/srinivasamuly/go/src/github.com/muly/howto/golang/io/io-writer.go`
 
 	f, err := os.Open(filename)
 	if err != nil {
@@ -22,17 +22,12 @@ func main(){
 	write2Writer()
 }
 
-func write2Disk(f io.Reader)error{
-	out, err:= os.Create("temo.txt")
-	if err != nil{
-	return err
+func write2Disk(f io.Reader) error {
+	out, err := os.Create("temo.txt")
+	if err != nil {
+		return err
 	}
-
-
-
 
 }
 
-func write2Writer(){}
-
-
+func write2Writer() {}

@@ -55,8 +55,8 @@ func getSecret(sess *session.Session, secretName string, region string) (string,
 	}
 
 	payload := struct {
-		User  string `json:"user,omitempty"`
-		Pwd string `json:"pwd,omitempty"`
+		User string `json:"user,omitempty"`
+		Pwd  string `json:"pwd,omitempty"`
 	}{}
 	if err := json.Unmarshal([]byte(*result.SecretString), &payload); err != nil {
 		return "", "", err

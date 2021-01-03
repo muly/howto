@@ -20,9 +20,9 @@ const (
 var db *sql.DB
 
 func init() {
-	connStr:= fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",user,secret,dbip,dbport,dbschema)
+	connStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, secret, dbip, dbport, dbschema)
 	var err error
-	db, err = sql.Open("mysql", connStr) 
+	db, err = sql.Open("mysql", connStr)
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -11,7 +11,7 @@ import (
 
 func main() {
 	log.Println("starting client...")
-	serverURL:= "http://127.0.0.1:8080"
+	serverURL := "http://127.0.0.1:8080"
 	log.Println("server url:", serverURL)
 	r, err := http.NewRequest("GET", serverURL, nil)
 	if err != nil {

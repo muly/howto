@@ -8,9 +8,9 @@ import (
 
 func main() {
 	if err := SetLogfile("./sample.log"); err != nil {
-        panic(err)
+		panic(err)
 	}
-	
+
 	log.Println("This is a test log entry to console")
 	log.Println("This is a test log entry to file")
 }
@@ -25,7 +25,6 @@ func SetLogfile(path string) error {
 	log.SetFormatter(&log.TextFormatter{
 		FullTimestamp: true,
 	})
-
 
 	return nil
 }

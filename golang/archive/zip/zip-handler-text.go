@@ -19,12 +19,12 @@ func zipit(w http.ResponseWriter, r *http.Request) {
 
 	// Add some files to the archive.
 	files := map[string][]byte{}
-	
-	files["readme.txt"]= []byte("This archive contains some text files.")
-	files["gopher.txt"]= []byte("Gopher names:\nGeorge\nGeoffrey\nGonzo")
-	files["todo.txt"]= []byte("Get animal handling licence.\nWrite more examples.")
-	
-	for fileName, fileBody:= range files {
+
+	files["readme.txt"] = []byte("This archive contains some text files.")
+	files["gopher.txt"] = []byte("Gopher names:\nGeorge\nGeoffrey\nGonzo")
+	files["todo.txt"] = []byte("Get animal handling licence.\nWrite more examples.")
+
+	for fileName, fileBody := range files {
 		f, err := writer.Create(fileName)
 		if err != nil {
 			log.Fatal(err)
@@ -33,7 +33,7 @@ func zipit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-	}	
+	}
 	// Make sure to check the error on Close.
 	err := writer.Close()
 	if err != nil {

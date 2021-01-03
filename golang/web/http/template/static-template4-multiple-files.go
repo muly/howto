@@ -7,8 +7,7 @@ import (
 )
 
 func main() {
-	tmpl := template.Must(template.ParseFiles("stpl_compose.gohtml","stpl_body.gohtml","stpl_header.gohtml"))
-	
+	tmpl := template.Must(template.ParseFiles("stpl_compose.gohtml", "stpl_body.gohtml", "stpl_header.gohtml"))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")

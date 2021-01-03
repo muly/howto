@@ -13,6 +13,5 @@ func main() {
 	fmt.Printf("%d %f %s %v\n", i, f, s, b)
 }
 
-
 // References:
 // basic types: https://tour.golang.org/basics/11

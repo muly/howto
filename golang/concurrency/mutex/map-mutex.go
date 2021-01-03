@@ -23,7 +23,7 @@ func main() {
 
 		fmt.Println(i)
 		wg.Add(1)
-		go writeToMap("A",i)
+		go writeToMap("A", i)
 	}
 
 	wg.Wait()
@@ -35,6 +35,6 @@ func writeToMap(s string, i int) {
 	mutex.Lock()
 	m[s] = i
 	mutex.Unlock()
-	
+
 	wg.Done()
 }

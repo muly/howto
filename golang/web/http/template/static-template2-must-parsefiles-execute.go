@@ -6,7 +6,6 @@ import (
 	"text/template"
 )
 
-
 func main() {
 	tmpl := template.Must(template.ParseFiles("stpl_single.gohtml"))
 
