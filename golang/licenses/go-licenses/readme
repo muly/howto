@@ -2,3 +2,7 @@
 
 // example project: 
 // simple guid number generator code
+
+
+// NEXT: need to introduce a linux-only-dependency. this will cause the different behavious on the dev machine (eg mac) vs the build server (linux).
+// to resolve this, I need to identify if go-licenses will support any flag to check for a specific OS/Arch. Need to file an issue in the repo to see if they can support/help
