@@ -5,123 +5,70 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"testing"
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/firehose"
-	"github.com/aws/aws-sdk-go/service/iam"
-	"github.com/aws/aws-sdk-go/service/s3"
-	dockertest "github.com/ory/dockertest"
 )
+
+var firehoseClinet *firehose.Firehose
 
 const (
-	bucketName = "test-bucket-for-firehose"
-	roleName   = "test-role"
+	region       = "us-east-1"
+	firehoseName = "test-hose1"
 )
 
-func TestMain(m *testing.M) {
-	//
-	pool, err := dockertest.NewPool("")
-	if err != nil {
-		log.Fatalf("Could not connect to docker: %s", err)
+func Init() {
+	aws_access_key_id := os.Getenv("AWS_ACCESS_KEY_ID")
+	aws_secret_access_key := os.Getenv("AWS_SECRET_ACCESS_KEY")
+
+	if aws_access_key_id == "" || aws_secret_access_key == "" {
+		log.Fatal("aws keys empty")
 	}
 
-	// pulls an image, creates a container based on it and runs it
-	resource, err := pool.Run("localstack/localstack", "latest", []string{"SERVICES=s3,iam,firehose"})
+	token := ""
+	creds := credentials.NewStaticCredentials(aws_access_key_id, aws_secret_access_key, token)
+	_, err := creds.Get()
 	if err != nil {
-		log.Fatalf("Could not start resource: %s", err)
+		panic(err)
 	}
 
-	endpoint := fmt.Sprintf("http://localhost:%s", resource.GetPort("4566/tcp"))
-	log.Println("endpoint: ", endpoint)
+	cfg := aws.NewConfig().WithRegion(region).WithCredentials(creds)
 
-	time.Sleep(30 * time.Second) // or poll for the status
+	firehoseClinet = firehose.New(session.New(), cfg) //TODO: session.New() is deprecated
+}
 
-	// aws session
-	sess, err := session.NewSession(&aws.Config{
-		Credentials: credentials.NewStaticCredentials("not", "empty", "test-token"),
-		DisableSSL:  aws.Bool(true),
-		Region:      aws.String(region),
-		Endpoint:    aws.String(endpoint),
-	})
-	if err != nil {
-		log.Fatalf("session.NewSession() error: %v", err)
-	}
-
-	// setup s3 bucket
-	s3Client := s3.New(sess, &aws.Config{
-		Region:           aws.String(region),
-		S3ForcePathStyle: aws.Bool(true), // Required: otherwise running into an error
-	})
-
-	_, err = s3Client.CreateBucket(&s3.CreateBucketInput{
-		Bucket:           aws.String(bucketName),
-		GrantFullControl: aws.String("write"),
-		CreateBucketConfiguration: &s3.CreateBucketConfiguration{
-			LocationConstraint: aws.String(region),
-		},
-	})
-	if err != nil {
-		log.Fatalf("Could not CreateBucket: %s", err)
-	}
-
-	// setup iam role
-	iamClient := iam.New(sess)
-
-	roleResponse, err := iamClient.CreateRole(&iam.CreateRoleInput{
-		RoleName:                 aws.String(roleName),
-		AssumeRolePolicyDocument: aws.String("AmazonKinesisFirehoseFullAccess"),
-	})
-	if err != nil {
-		log.Fatalf("Could not CreateBucket: %s", err)
-	}
-
-	// setup  firehose
-	firehoseClinet = firehose.New(sess)
-
-	_, err = firehoseClinet.CreateDeliveryStream(&firehose.CreateDeliveryStreamInput{
+func Handler(ctx context.Context, data events.KinesisEvent) error {
+	input := firehose.PutRecordInput{
 		DeliveryStreamName: aws.String(firehoseName),
-		DeliveryStreamType: aws.String("DirectPut"),
-		ExtendedS3DestinationConfiguration: &firehose.ExtendedS3DestinationConfiguration{
-			BucketARN: aws.String(fmt.Sprintf("arn:aws:s3:%s::%s", region, bucketName)),
-			RoleARN:   roleResponse.Role.Arn,
+		Record: &firehose.Record{
+			Data: []byte(fmt.Sprintf("hello firehose: %v", time.Now())),
 		},
-	})
+	}
+
+	_, err := firehoseClinet.PutRecordWithContext(ctx, &input)
 	if err != nil {
-		log.Fatalf("Could not CreateDeliveryStream: %s", err)
+		log.Println("firehoseClinet.PutRecordWithContext error", err)
+		return err
 	}
 
-	code := m.Run()
+	fmt.Print("Handler Done")
 
-	// You can't defer this because os.Exit doesn't care for defer
-	if err := pool.Purge(resource); err != nil {
-		log.Fatalf("Could not purge resource: %s", err)
-	}
-
-	os.Exit(code)
+	return nil
 }
 
-func TestSomething(t *testing.T) {
-	err := Handler(context.TODO(), events.KinesisEvent{})
-	if err != nil {
-		t.Errorf("Handler error: %v", err)
-	}
+func main() {
+	Init()
 
+	lambda.Start(Handler)
+
+	// // to run locally
+	// err := Handler(context.TODO(), events.KinesisEvent{})
+	// if err != nil {
+	// 	log.Printf("Handler error,: %v", err)
+	// }
 }
-
-/*
-currently getting the below error:
-	Internal Server Error
-	The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the  application
-*/
-
-/*
-related aws commands
-	awslocal s3api list-buckets
-	awslocal s3api list-objects --bucket test-bucket-for-firehose
-	awslocal firehose list-delivery-streams
-*/
