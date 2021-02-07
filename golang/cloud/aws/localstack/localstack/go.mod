@@ -19,4 +19,8 @@ require (
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/sirupsen/logrus v1.7.0 // indirect
 	gotest.tools v2.2.0+incompatible // indirect
+<<<<<<< HEAD
 )
+=======
+)
+>>>>>>> 1c1dbad... firehose aws localstack example
