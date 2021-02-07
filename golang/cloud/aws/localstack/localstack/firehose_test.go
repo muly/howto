@@ -2,15 +2,15 @@ package main
 
 import (
 	"context"
-	"log"
 	"fmt"
+	"log"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/firehose"
 	"github.com/aws/aws-sdk-go/service/iam"
@@ -18,77 +18,81 @@ import (
 	dockertest "github.com/ory/dockertest"
 )
 
-var s3Client *s3.S3
-var iamClient *iam.IAM
+const (
+	bucketName = "test-bucket-for-firehose"
+	roleName   = "test-role"
+)
 
 func TestMain(m *testing.M) {
-	// uses a sensible default on windows (tcp/http) and linux/osx (socket)
+	//
 	pool, err := dockertest.NewPool("")
 	if err != nil {
 		log.Fatalf("Could not connect to docker: %s", err)
 	}
 
 	// pulls an image, creates a container based on it and runs it
-	resource, err := pool.Run("localstack/localstack", "latest", []string{})
+	resource, err := pool.Run("localstack/localstack", "latest", []string{"SERVICES=s3,iam,firehose"})
 	if err != nil {
 		log.Fatalf("Could not start resource: %s", err)
 	}
 
-	// exponential backoff-retry, because the application in the container might not be ready to accept connections yet
-	if err := pool.Retry(func() error {
-		// aws session
-		sess, err := session.NewSession(&aws.Config{
-			Credentials: credentials.NewStaticCredentials("not", "empty", "test-token"),
-			DisableSSL:  aws.Bool(true),
-			Region:      aws.String(endpoints.UsWest1RegionID),
-			Endpoint:    aws.String("localhost:4566"),
-		})
-		if err != nil {
-			log.Fatalf("session.NewSession() error: %v", err)
-		}
+	endpoint := fmt.Sprintf("http://localhost:%s", resource.GetPort("4566/tcp"))
+	log.Println("endpoint: ", endpoint)
 
-		// s3 client
-		s3Client = s3.New(sess)
-		firehoseClinet = firehose.New(sess)
-		iamClient = iam.New(sess)
+	time.Sleep(30 * time.Second) // or poll for the status
 
-		// create s3
-		buckerName := "test-bucket-for-firehose"
-		_, err = s3Client.CreateBucket(&s3.CreateBucketInput{
-			Bucket: aws.String(buckerName),
-		})
-		if err != nil {
-			// TODO
-		}
-		bucketARN := fmt.Sprintf("arn:aws:s3:::%s", buckerName)
+	// aws session
+	sess, err := session.NewSession(&aws.Config{
+		Credentials: credentials.NewStaticCredentials("not", "empty", "test-token"),
+		DisableSSL:  aws.Bool(true),
+		Region:      aws.String(region),
+		Endpoint:    aws.String(endpoint),
+	})
+	if err != nil {
+		log.Fatalf("session.NewSession() error: %v", err)
+	}
 
-		// create role
-		roleOut, err := iamClient.CreateRole(&iam.CreateRoleInput{
-			RoleName:                 aws.String("test-role-for-firehose"),
-			AssumeRolePolicyDocument: aws.String("some-text-shoould-be-ok"),
-		})
-		if err != nil {
-			// TODO
-		}
-		roleARN := *roleOut.Role.Arn
+	// setup s3 bucket
+	s3Client := s3.New(sess, &aws.Config{
+		Region:           aws.String(region),
+		S3ForcePathStyle: aws.Bool(true), // Required: otherwise running into an error
+	})
 
-		// create firehose
-		createDeliveryStreamInput := firehose.CreateDeliveryStreamInput{
-			DeliveryStreamName: aws.String("test-hose1"),
-			DeliveryStreamType: aws.String("DirectPut"),
-			ExtendedS3DestinationConfiguration: &firehose.ExtendedS3DestinationConfiguration{
-				BucketARN: aws.String(bucketARN),
-				RoleARN:   aws.String(roleARN),
-			},
-		}
-		_, err = firehoseClinet.CreateDeliveryStream(&createDeliveryStreamInput)
-		if err != nil {
-			// TODO
-		}
+	_, err = s3Client.CreateBucket(&s3.CreateBucketInput{
+		Bucket:           aws.String(bucketName),
+		GrantFullControl: aws.String("write"),
+		CreateBucketConfiguration: &s3.CreateBucketConfiguration{
+			LocationConstraint: aws.String(region),
+		},
+	})
+	if err != nil {
+		log.Fatalf("Could not CreateBucket: %s", err)
+	}
 
-		return nil
-	}); err != nil {
-		log.Fatalf("Could not connect to docker: %s", err)
+	// setup iam role
+	iamClient := iam.New(sess)
+
+	roleResponse, err := iamClient.CreateRole(&iam.CreateRoleInput{
+		RoleName:                 aws.String(roleName),
+		AssumeRolePolicyDocument: aws.String("AmazonKinesisFirehoseFullAccess"),
+	})
+	if err != nil {
+		log.Fatalf("Could not CreateBucket: %s", err)
+	}
+
+	// setup  firehose
+	firehoseClinet = firehose.New(sess)
+
+	_, err = firehoseClinet.CreateDeliveryStream(&firehose.CreateDeliveryStreamInput{
+		DeliveryStreamName: aws.String(firehoseName),
+		DeliveryStreamType: aws.String("DirectPut"),
+		ExtendedS3DestinationConfiguration: &firehose.ExtendedS3DestinationConfiguration{
+			BucketARN: aws.String(fmt.Sprintf("arn:aws:s3:%s::%s", region, bucketName)),
+			RoleARN:   roleResponse.Role.Arn,
+		},
+	})
+	if err != nil {
+		log.Fatalf("Could not CreateDeliveryStream: %s", err)
 	}
 
 	code := m.Run()
@@ -104,15 +108,20 @@ func TestMain(m *testing.M) {
 func TestSomething(t *testing.T) {
 	err := Handler(context.TODO(), events.KinesisEvent{})
 	if err != nil {
-		t.Errorf("Handler error,: %v", err)
+		t.Errorf("Handler error: %v", err)
 	}
 
 }
-
-
 
 /*
 currently getting the below error:
 	Internal Server Error
 	The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the  application
+*/
+
+/*
+related aws commands
+	awslocal s3api list-buckets
+	awslocal s3api list-objects --bucket test-bucket-for-firehose
+	awslocal firehose list-delivery-streams
 */
