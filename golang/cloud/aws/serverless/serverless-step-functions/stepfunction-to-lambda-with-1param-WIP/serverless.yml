@@ -1,0 +1,40 @@
+service: messagerNew
+
+provider:
+  name: aws
+  runtime: go1.x
+
+plugins:
+  - serverless-step-functions
+
+functions:
+  lambdatakes1param:
+    handler: lambdaExecutable
+    package:
+      exclude:
+        - ./**
+      include:
+        - lambdaExecutable
+    role: !GetAtt lambdaExecutableRole124.Arn
+    timeout: 50
+
+stepFunctions:
+  validate: true
+  stateMachines:
+    testStepFuncExample:
+      role: !GetAtt lambdaExecutableRole124.Arn
+      definition:
+        Comment: "A Hello World example of the Amazon States Language using an AWS Lambda Function"
+        StartAt: Invoke Lambda function
+        States:
+            Invoke Lambda function: 
+                Type: Task
+                Resource: arn:aws:states:::lambda:invoke
+                Parameters: 
+                    FunctionName: arn:aws:lambda:us-west-1:851336187371:function:lambdatakes1param
+                    Payload: 
+                      A: 10
+                      B: "hello"
+                End: true
+
+

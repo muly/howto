@@ -1,0 +1,1479 @@
+swagger: "2.0"
+info:
+  title: "MV!!!!!!"
+  version: "0.0.1"
+# Base URL
+schemes:
+  - http
+# consumes and produces
+consumes:
+  - application/json
+produces:
+  - application/json
+
+# paths, parameters, responses
+paths:
+  /api/userprofile:
+    post:
+      summary: Posts user
+      description: Posts the user profile details into db
+      parameters:
+        - in: body
+          name: profiles
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+      responses:
+        200:
+          description: Returns the posted user or users profiles
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+    get:
+      summary: Returns all users
+      description: Includes all the users in the database
+      responses:
+        200:
+          description: Returns the list of all users
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}:
+    get:
+      summary: Returns a user by his ID
+      description: Includes all the details from the user profile in the database
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        200:
+          description: Returns the user details with id provided in the path
+          schema:
+            $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+    patch:
+      summary: Updates a user by his ID
+      description: Includes all the details of the users in the database given in the struct form designed
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+        - in: body
+          name: body
+          schema:
+            additionalProperties:
+              type: object
+      responses:
+        200:
+          description: Updates and returns the user details with id provided in the path
+          schema:
+            $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+    delete:
+      summary: Deletes a user by his ID
+      description: Deletes all the details of the user from the database
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        200:
+          description: Deletes the user and all his details with id provided in the path
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/metadata:
+    get:
+      summary: Gets all metadata 
+      description: Returns metadata saved in csvs
+      parameters:
+        - in: query
+          name: meta
+          type: string
+          required: true
+        - in: query
+          name: country
+          type: string
+        - in: query
+          name: state
+          type: string
+        - in: query
+          name: field
+          type: string
+          enum: [beliefs,size,class,income,occupation,drinking,exercise,food,partying,pets,prayer,reading,smoking,social_service,mental,moral,personal,physical,social,religion,religion_sect,caste,sub-caste,gotra,profession,languages,designation]
+      responses:
+        200:
+          description: returns list of values
+          schema:
+            $ref: "#/definitions/metadata"
+        400:
+          $ref: "#/responses/BadRequest"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/near_me:
+    get:
+      summary: Gets all profiles near me
+      description: Near me returns profiles which are close to my profile and match to the preferences
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: returns list of all profiles
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/rate_user/{pid}:
+    post:
+      summary: Posts rating
+      description: Posts user rating to the partner
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+        - in: path
+          name: pid
+          type: string
+          required: true
+        - in: body
+          name: body
+          schema:
+            $ref: "#/definitions/user_feedback"
+      responses:
+        200:
+          description: return given feedback
+          schema:
+            $ref: "#/definitions/user_feedback"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/profile_questions:
+    get:
+      summary: Gets all profile questoins
+      description: returns all 20 questions
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: "#/definitions/profile_question"
+        400:
+          $ref: "#/responses/BadRequest"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/search:
+    get:
+      summary: Gets all profiles
+      description: get all profiles based upon search criteria
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+        - in: body
+          name: body
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/shortlisted:
+    post:
+      summary: Posts shortlisted profile
+      description: shortlists the user profile 
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+        - in: body
+          name: body
+          schema:
+            type: object
+            additionalProperties: 
+              type: object
+          required: true
+      responses:
+        200:
+          description: returns the profile
+          schema:
+            $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+    get:
+      summary: Gets all shortlisted profiles
+      description: get all shortlisted profiles
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: array of profiles
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/they_shortlisted:
+    get:
+      summary: Gets all profiles
+      description: gets all the profiles who shortlisted the user
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: returns the array of profiles
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/interested:
+    post:
+      summary: Posts interest
+      description: Sends the interest showed on other profile and updates the same in both the profiles
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+        - in: body
+          name: interested
+          schema:
+            $ref: "#/definitions/interested"
+          required: true
+      responses:
+        200:
+          description: returns the user profile
+          schema:
+            $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        500:
+          $ref: "#/responses/InternalServerError"
+    get:
+      summary: Gets i interested profiles
+      description: Gets all the profiles, the user has sent his interest
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: array of other profiles
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/they_interested:
+    get:
+      summary: Gets other profiles who showed interest in user's profile
+      description: returns the profiles of users who showed intersest on user's profile
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: array of profiles
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/i_view:
+    post:
+      summary: Posts view status
+      description: posts the view status to user's profile as well as updates viewed pofile 
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+        - in: body
+          name: viewed
+          schema:
+            $ref: "#/definitions/profile_views"
+      responses:
+        200:
+          description: user profile
+          schema:
+            $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+    get:
+      summary: Gets profiles viewed by user
+      description: returns all profiles viewed by the user
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: array of profiles
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/they_viewed:
+    get:
+      summary: Gets all profiles
+      description: returns the profiles of users who viewed user's profile
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: array of profiles
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/star_users:
+    get:
+      summary: Gets star users for smart choice
+      description: returns the profiles filtered and sorted for star users 
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: array of profiles
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+  /api/userprofile/{id}/verified_users:
+    get:
+      summary: Gets verified users for smart choice
+      description: returns the profiles filtered and sorted for verified users whose emails/phone are verified
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: array of profiles
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+        500:
+          $ref: "#/responses/InternalServerError"
+# inputs and output models
+definitions:
+  profile:
+    title: user profile
+    description: consists of all details of the user
+    type: object
+    properties:
+      profile_id:
+        description: unique identification of user profile
+        type: string
+        x-go-custom-tag: 'firestore:"profile_id"'
+      user_permissions:
+        $ref: "#/definitions/user_permissions"
+      user_profile:
+        $ref: "#/definitions/user_profile"
+      user_qualities:
+        $ref: "#/definitions/user_qualities"
+      user_hobbies:
+        $ref: "#/definitions/user_hobbies"
+      about_me:
+        type: string
+        x-go-custom-tag: 'firestore:"about_me"'
+      user_habits:
+        $ref: "#/definitions/user_habits"
+      user_career:
+        $ref: "#/definitions/user_career"
+      user_religion:
+        $ref: "#/definitions/user_religion"
+      residence:
+        $ref: "#/definitions/location"
+      user_family:
+        $ref: "#/definitions/user_family"
+      user_meeting_preference:
+        $ref: "#/definitions/user_meeting_preference"
+      questions:
+        type: array
+        x-go-custom-tag: 'firestore:"questions"'
+        items:
+          $ref: "#/definitions/questions"
+      metadata:
+        description: a (key, value) map.
+        type: object
+        x-go-custom-tag: 'firestore:"metadata"'
+        additionalProperties:
+          type: object
+      rating:
+        type: array
+        x-go-custom-tag: 'firestore:"rating"'
+        items:
+          $ref: "#/definitions/rating"
+      membership:
+        type: object
+        x-go-custom-tag: 'firestore:"membership"'
+        properties:
+          membership_type:
+            type: string
+            x-go-custom-tag: 'firestore:"membership_type"'
+          membership_expires_on:
+            type: string
+            x-go-custom-tag: 'firestore:"membership_expires_on"'
+      extra_curricular_activities:
+        x-go-custom-tag: 'firestore:"extra_curricular_activities"'
+        type: object
+        properties:
+          music:
+            type: array
+            x-go-custom-tag: 'firestore:"music"'
+            items:
+              type: string
+          movies:
+            type: array
+            x-go-custom-tag: 'firestore:"movies"'
+            items:
+              type: string
+          books:
+            type: array
+            x-go-custom-tag: 'firestore:"books"'
+            items:
+              type: string
+          events:
+            type: array
+            x-go-custom-tag: 'firestore:"events"'
+            items:
+              type: string
+          sports:
+            type: array
+            x-go-custom-tag: 'firestore:"sports"'
+            items:
+              type: string
+      feedback:
+        type: array
+        x-go-custom-tag: 'firestore:"feedback"'
+        items:
+          $ref: "#/definitions/user_feedback"
+      average_user_rating:
+        type: number
+        format: float
+        x-go-custom-tag: 'firestore:"average_user_rating"'
+      rating_band:
+        type: string
+        x-go-custom-tag: 'firestore:"rating_band"'
+      partner_preferences:
+        type: object
+        x-go-custom-tag: 'firestore:"partner_preferences"'
+        properties:
+          partner_qualities:
+            $ref: "#/definitions/partner_qualities"
+          partner_hobbies:
+            $ref: "#/definitions/partner_hobbies"
+          partner_habits:
+            $ref: "#/definitions/partner_habits"
+          partner_career:
+            $ref: "#/definitions/partner_career"
+          partner_religion:
+            $ref: "#/definitions/partner_religion"
+          partner_family:
+            $ref: "#/definitions/partner_family"
+          partner_meeting_preferences:
+            $ref: "#/definitions/partner_meeting_preferences"
+      my_shortlisted:
+        type: array
+        x-go-custom-tag: 'firestore:"my_shortlisted"'
+        items:
+          $ref: "#/definitions/shortlisted"
+      my_interested:
+        type: array
+        x-go-custom-tag: 'firestore:"my_interested"'
+        items:
+          $ref: "#/definitions/interested"
+      my_interested_count:
+        type: number
+        format: integer
+        x-go-custom-tag: 'firestore:"my_interested_count"'
+      they_shortlisted:
+        type: array
+        x-go-custom-tag: 'firestore:"they_shortlisted"'
+        items:
+          $ref: "#/definitions/shortlisted"
+      i_viewed:
+        type: array
+        x-go-custom-tag: 'firestore:"i_viewed"'
+        items:
+          $ref: "#/definitions/profile_views"
+      they_viewed:
+        type: array
+        x-go-custom-tag: 'firestore:"they_viewed"'
+        items:
+          $ref: "#/definitions/profile_views"
+      privacy_setting:
+        $ref: "#/definitions/privacy"
+  metadata:
+    title: metadata
+    description: consists of all values for dropdown
+    type: array
+    items:
+      type: string
+  profile_question:
+    description: collection of four variants of profile questions
+    type: array
+    items:
+      $ref: "#/definitions/question_bank"
+  # nested definitions
+  user_permissions:
+    title: user permissions
+    description: contains the permission for the preview of user profile data
+    type: object
+    x-go-custom-tag: 'firestore:"user_permissions"'
+    properties:
+      access_to_device_location:
+        type: boolean
+        x-go-custom-tag: 'firestore:"access_to_device_location"'
+      access_to_media:
+        type: boolean
+        x-go-custom-tag: 'firestore:"access_to_media"'
+      enable_whats_app_assistance:
+        type: boolean
+        x-go-custom-tag: 'firestore:"enable_whats_app_assistance"'
+      accept_terms_and_conditions:
+        type: boolean
+        x-go-custom-tag: 'firestore:"accept_terms_and_conditions"'
+  user_profile:
+    title: user profile
+    description: contains user's personal profile details
+    type: object
+    x-go-custom-tag: 'firestore:"user_profile"'
+    properties:
+      user_name:
+        type: string
+        x-go-custom-tag: 'firestore:"user_name"'
+      registered_email:
+        type: string
+        x-go-custom-tag: 'firestore:"registered_email"'
+      registered_mobile_number:
+        type: string
+        x-go-custom-tag: 'firestore:"registered_mobile_number"'
+      first_name:
+        type: string
+        x-go-custom-tag: 'firestore:"first_name"'
+      middle_name:
+        type: string
+        x-go-custom-tag: 'firestore:"middle_name"'
+      last_name:
+        type: string
+        x-go-custom-tag: 'firestore:"last_name"'
+      gender:
+        type: string
+        x-go-custom-tag: 'firestore:"gender"'
+      professional_email:
+        type: string
+        x-go-custom-tag: 'firestore:"professional_email"'
+      height:
+        type: string
+        x-go-custom-tag: 'firestore:"height"'
+      weight:
+        type: string
+        x-go-custom-tag: 'firestore:"weight"'
+      marital_status:
+        type: string
+        x-go-custom-tag: 'firestore:"marital_status"'
+      birth_details:
+        $ref: "#/definitions/birth_details"
+      id_proofs:
+        type: array
+        x-go-custom-tag: 'firestore:"id_proofs"'
+        items:
+          $ref: "#/definitions/file"
+      alternate_phone:
+        type: string
+        x-go-custom-tag: 'firestore:"alternate_phone"'
+      whatsapp_mobile_number:
+        type: string
+        x-go-custom-tag: 'firestore:"whatsapp_mobile_number"'
+      profile_pic_url:
+        type: string
+        x-go-custom-tag: 'firestore:"profile_pic_url"'
+      media:
+        type: array
+        x-go-custom-tag: 'firestore:"media"'
+        items:
+          $ref: "#/definitions/file"
+      languages_spoken:
+        type: array
+        x-go-custom-tag: 'firestore:"languages_spoken"'
+        items:
+          type: string
+        example: ["English", "Hindi", "Telugu"]
+      languages_read:
+        type: array
+        x-go-custom-tag: 'firestore:"languages_read"'
+        items:
+          type: string
+        example: ["English", "Hindi", "Telugu"]
+      profile_created_for:
+        type: string
+        x-go-custom-tag: 'firestore:"profile_created_for"'
+  birth_details:
+    title: birth details
+    description: contains all the details of the user's birth
+    type: object
+    x-go-custom-tag: 'firestore:"birth_details"'
+    properties:
+      time:
+        type: string
+        x-go-custom-tag: 'firestore:"time"'
+      country:
+        type: string
+        x-go-custom-tag: 'firestore:"country"'
+      state:
+        type: string
+        x-go-custom-tag: 'firestore:"state"'
+      city:
+        type: string
+        x-go-custom-tag: 'firestore:"city"'
+  file:
+    title: file
+    description: structure that holds all proofs
+    type: object
+    properties:
+      type:
+        type: string
+        x-go-custom-tag: 'firestore:"type"'
+      file_url:
+        type: string
+        x-go-custom-tag: 'firestore:"file_url"'
+      tag:
+        type: string
+        x-go-custom-tag: 'firestore:"tag"'
+  user_qualities:
+    title: user qualities
+    description: qualities of user
+    type: object
+    x-go-custom-tag: 'firestore:"user_qualities"'
+    properties:
+      moral:
+        type: array
+        x-go-custom-tag: 'firestore:"moral"'
+        items:
+          type: string
+      mental:
+        type: array
+        x-go-custom-tag: 'firestore:"mental"'
+        items:
+          type: string
+      physical:
+        type: array
+        x-go-custom-tag: 'firestore:"physical"'
+        items:
+          type: string
+      social:
+        type: array
+        x-go-custom-tag: 'firestore:"social"'
+        items:
+          type: string
+      personal:
+        type: array
+        x-go-custom-tag: 'firestore:"personal"'
+        items:
+          type: string
+  partner_qualities:
+    title: partner qualities
+    type: object
+    x-go-custom-tag: 'firestore:"partner_qualities"'
+    properties:
+      moral:
+        type: array
+        x-go-custom-tag: 'firestore:"moral"'
+        items:
+          type: string
+      mental:
+        type: array
+        x-go-custom-tag: 'firestore:"mental"'
+        items:
+          type: string
+      physical:
+        type: array
+        x-go-custom-tag: 'firestore:"physical"'
+        items:
+          type: string
+      social:
+        type: array
+        x-go-custom-tag: 'firestore:"social"'
+        items:
+          type: string
+      personal:
+        type: array
+        x-go-custom-tag: 'firestore:"personal"'
+        items:
+          type: string
+  user_hobbies:
+    title: user hobbies
+    description: hobbies of user
+    type: object
+    x-go-custom-tag: 'firestore:"user_hobbies"'
+    properties:
+      moral:
+        type: array
+        x-go-custom-tag: 'firestore:"moral"'
+        items:
+          type: string
+      mental:
+        type: array
+        x-go-custom-tag: 'firestore:"mental"'
+        items:
+          type: string
+      physical:
+        type: array
+        x-go-custom-tag: 'firestore:"physical"'
+        items:
+          type: string
+      social:
+        type: array
+        x-go-custom-tag: 'firestore:"social"'
+        items:
+          type: string
+      personal:
+        type: array
+        x-go-custom-tag: 'firestore:"personal"'
+        items:
+          type: string
+  partner_hobbies:
+    title: partner hobbies
+    description: hobbies of partner
+    type: object
+    x-go-custom-tag: 'firestore:"partner_hobbies"'
+    properties:
+      moral:
+        type: array
+        x-go-custom-tag: 'firestore:"moral"'
+        items:
+          type: string
+      mental:
+        type: array
+        x-go-custom-tag: 'firestore:"mental"'
+        items:
+          type: string
+      physical:
+        type: array
+        x-go-custom-tag: 'firestore:"physical"'
+        items:
+          type: string
+      social:
+        type: array
+        x-go-custom-tag: 'firestore:"social"'
+        items:
+          type: string
+      personal:
+        type: array
+        x-go-custom-tag: 'firestore:"personal"'
+        items:
+          type: string
+  user_habits:
+    title: user habits
+    description: habits of the user
+    type: object
+    x-go-custom-tag: 'firestore:"user_habits"'
+    properties:
+      smoking:
+        type: string
+        x-go-custom-tag: 'firestore:"smoking" csv:"smoking"'
+      drinking:
+        type: string
+        x-go-custom-tag: 'firestore:"drinking" csv:"drinking"'
+      partying:
+        type: string
+        x-go-custom-tag: 'firestore:"partying" csv:"partying"'
+      exercise:
+        type: string
+        x-go-custom-tag: 'firestore:"exercise" csv:"exercise"'
+      food:
+        type: string
+        x-go-custom-tag: 'firestore:"food" csv:"food"'
+      pets:
+        type: string
+        x-go-custom-tag: 'firestore:"pets" csv:"pets"'
+      prayer:
+        type: string
+        x-go-custom-tag: 'firestore:"prayer" csv:"prayer"'
+      social_service:
+        type: string
+        x-go-custom-tag: 'firestore:"social_service" csv:"social_service"'
+      reading:
+        type: string
+        x-go-custom-tag: 'firestore:"reading" csv:"reading"'
+  partner_habits:
+    title: partner habits
+    description: habits of the partner
+    type: object
+    x-go-custom-tag: 'firestore:"partner_habits"'
+    properties:
+      smoking:
+        type: string
+        x-go-custom-tag: 'firestore:"smoking"'
+      drinking:
+        type: string
+        x-go-custom-tag: 'firestore:"drinking"'
+      partying:
+        type: string
+        x-go-custom-tag: 'firestore:"partying"'
+      exercise:
+        type: string
+        x-go-custom-tag: 'firestore:"exercise"'
+      food:
+        type: string
+        x-go-custom-tag: 'firestore:"food"'
+      pets:
+        type: string
+        x-go-custom-tag: 'firestore:"pets"'
+      prayer:
+        type: string
+        x-go-custom-tag: 'firestore:"prayer"'
+      social_service:
+        type: string
+        x-go-custom-tag: 'firestore:"social_service"'
+      reading:
+        type: string
+        x-go-custom-tag: 'firestore:"reading"'
+  user_career:
+    title: user career
+    description: career details of the user
+    type: object
+    x-go-custom-tag: 'firestore:"user_career"'
+    properties:
+      profession:
+        type: string
+        x-go-custom-tag: 'firestore:"profession"'
+      earnings:
+        type: string
+        x-go-custom-tag: 'firestore:"earnings"'
+        enum: 
+          - Rs. 2-5 Lakh per annum
+          - Rs. 5-10 Lakh per annum
+          - Rs. 10-15 Lakh per annum
+          - Rs. 15-20 Lakh per annum
+          - Rs. 20-25 Lakh per annum
+          - Above Rs. 25 Lakh per annum
+      designation:
+        type: string
+        x-go-custom-tag: 'firestore:"designation"'
+      schooling:
+        type: array
+        x-go-custom-tag: 'firestore:"schooling"'
+        items:
+          type: string
+      graduation:
+        type: array
+        x-go-custom-tag: 'firestore:"graduation"'
+        items:
+          $ref: "#/definitions/graduation"
+      post_graduation:
+        type: array
+        x-go-custom-tag: 'firestore:"post_graduation"'
+        items:
+          $ref: "#/definitions/graduation"
+  partner_career:
+    title: partner career
+    description: career details of the partner
+    type: object
+    x-go-custom-tag: 'firestore:"partner_career"'
+    properties:
+      profession:
+        type: string
+        x-go-custom-tag: 'firestore:"profession"'
+      earnings:
+        type: string
+        x-go-custom-tag: 'firestore:"earnings"'
+      designation:
+        type: string
+        x-go-custom-tag: 'firestore:"designation"'
+      schooling:
+        type: array
+        x-go-custom-tag: 'firestore:"schooling"'
+        items:
+          type: string
+      graduation:
+        type: array
+        x-go-custom-tag: 'firestore:"graduation"'
+        items:
+          $ref: "#/definitions/graduation"
+      post_graduation:
+        type: array
+        x-go-custom-tag: 'firestore:"post_graduation"'
+        items:
+          $ref: "#/definitions/graduation"
+  graduation:
+    title: graduation
+    description: graduation details of the user
+    type: object
+    properties:
+      degree:
+        type: string
+        x-go-custom-tag: 'firestore:"degree"'
+      school_name:
+        type: string
+        x-go-custom-tag: 'firestore:"school_name"'
+  user_religion:
+    title: religion
+    description: religion of the user
+    type: object
+    x-go-custom-tag: 'firestore:"user_religion"'
+    properties:
+      religion:
+        type: string
+        x-go-custom-tag: 'firestore:"religion" csv:"religion"'
+      religion_sect:
+        type: string
+        x-go-custom-tag: 'firestore:"religion_sect" csv:"religion_sect"'
+      language:
+        type: string
+        x-go-custom-tag: 'firestore:"language" csv:"language"'
+      caste:
+        type: string
+        x-go-custom-tag: 'firestore:"caste" csv:"caste"'
+      sub_caste:
+        type: string
+        x-go-custom-tag: 'firestore:"sub_caste" csv:"sub_caste"'
+      gotra:
+        type: string
+        x-go-custom-tag: 'firestore:"gotra" csv:"gotra"'
+  partner_religion:
+    title: partner religion
+    description: religion of the partner
+    type: object
+    x-go-custom-tag: 'firestore:"partner_religion"'
+    properties:
+      religion:
+        type: string
+        x-go-custom-tag: 'firestore:"religion"'
+      religion_sect:
+        type: string
+        x-go-custom-tag: 'firestore:"religion_sect"'
+      language:
+        type: string
+        x-go-custom-tag: 'firestore:"language"'
+      caste:
+        type: string
+        x-go-custom-tag: 'firestore:"caste"'
+      sub_caste:
+        type: string
+        x-go-custom-tag: 'firestore:"sub_caste"'
+      gotra:
+        type: string
+        x-go-custom-tag: 'firestore:"gotra"'
+  location:
+    title: location
+    description: location
+    type: object
+    x-go-custom-tag: 'firestore:"residence"'
+    properties:
+      nationality:
+        type: string
+        x-go-custom-tag: 'firestore:"nationality" csv:"country"'
+      state:
+        type: string
+        x-go-custom-tag: 'firestore:"state" csv:"state"'
+      city:
+        type: string
+        x-go-custom-tag: 'firestore:"city" csv:"city"'
+  user_family:
+    title: family
+    description: details of the family
+    type: object
+    x-go-custom-tag: 'firestore:"user_family"'
+    properties:
+      class:
+        type: string
+        x-go-custom-tag: 'firestore:"class" csv:"class"'
+      beliefs:
+        type: string
+        x-go-custom-tag: 'firestore:"beliefs" csv:"beliefs"'
+      size:
+        type: string
+        x-go-custom-tag: 'firestore:"size" csv:"size"'
+      family_income:
+        type: string
+        x-go-custom-tag: 'firestore:"family_income" csv:"family_income"'
+      father_occupation:
+        type: string
+        x-go-custom-tag: 'firestore:"father_occupation" csv:"father_occupation"'
+      mother_occupation:
+        type: string
+        x-go-custom-tag: 'firestore:"mother_occupation"'
+      grand_father_occupation:
+        type: string
+        x-go-custom-tag: 'firestore:"grand_father_occupation"'
+      grand_mother_occupation:
+        type: string
+        x-go-custom-tag: 'firestore:"grand_mother_occupation"'
+      number_of_brothers:
+        type: number
+        x-go-custom-tag: 'firestore:"number_of_brothers"'
+      number_of_sisters:
+        type: number
+        x-go-custom-tag: 'firestore:"number_of_sisters"'
+  partner_family:
+    title: partner family
+    description: details of the partner family
+    type: object
+    x-go-custom-tag: 'firestore:"partner_family"'
+    properties:
+      class:
+        type: string
+        x-go-custom-tag: 'firestore:"class"'
+      beliefs:
+        type: string
+        x-go-custom-tag: 'firestore:"beliefs"'
+      size:
+        type: string
+        x-go-custom-tag: 'firestore:"size"'
+      family_income:
+        type: string
+        x-go-custom-tag: 'firestore:"family_income"'
+      father_occupation:
+        type: string
+        x-go-custom-tag: 'firestore:"father_occupation"'
+      mother_occupation:
+        type: string
+        x-go-custom-tag: 'firestore:"mother_occupation"'
+      grand_father_occupation:
+        type: string
+        x-go-custom-tag: 'firestore:"grand_father_occupation"'
+      grand_mother_occupation:
+        type: string
+        x-go-custom-tag: 'firestore:"grand_mother_occupation"'
+      number_of_brothers:
+        type: number
+        x-go-custom-tag: 'firestore:"number_of_brothers"'
+      number_of_sisters:
+        type: number
+        x-go-custom-tag: 'firestore:"number_of_sisters"'
+  user_meeting_preference:
+    title: meeting preferences
+    description: meeting preferences of the user to the partner
+    type: object
+    x-go-custom-tag: 'firestore:"user_meeting_preference"'
+    properties:
+      tea_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"tea_meetup"'
+      movie_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"movie_meetup"'
+      gym_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"gym_meetup"'
+      coffee_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"coffee_meetup"'
+      shopping_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"shopping_meetup"'
+      readers_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"readers_meetup"'
+      restaurant_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"restaurant_meetup"'
+      amusement_park_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"amusement_park_meetup"'
+      charity_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"charity_meetup"'
+      first_choice:
+        type: string
+        x-go-custom-tag: 'firestore:"first_choice"'
+  partner_meeting_preferences:
+    title: partner meeting preferences
+    description: meeting preferences of the partner
+    type: object
+    x-go-custom-tag: 'firestore:"partner_meeting_preferences"'
+    properties:
+      tea_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"tea_meetup"'
+      movie_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"movie_meetup"'
+      gym_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"gym_meetup"'
+      coffee_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"coffee_meetup"'
+      shopping_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"shopping_meetup"'
+      readers_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"readers_meetup"'
+      restaurant_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"restaurant_meetup"'
+      amusement_park_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"amusement_park_meetup"'
+      charity_meetup:
+        type: boolean
+        x-go-custom-tag: 'firestore:"charity_meetup"'
+      first_choice:
+        type: string
+        x-go-custom-tag: 'firestore:"first_choice"'
+  questions:
+    title: questions
+    description: answers to the questions
+    type: object
+    properties:
+      question_id:
+        type: number
+        x-go-custom-tag: 'firestore:"question_id"'
+      answer:
+        type: array
+        x-go-custom-tag: 'firestore:"answer"'
+        items:
+          $ref: "#/definitions/choice"
+      pin_question:
+        type: boolean
+        x-go-custom-tag: 'firestore:"pin_question"'
+  choice:
+    title: choice
+    description: answered choice of the user
+    type: object
+    properties:
+      label:
+        type: string
+        x-go-custom-tag: 'firestore:"label"'
+      values:
+        type: array
+        x-go-custom-tag: 'firestore:"values"'
+        items:
+          type: string
+  rating:
+    title: rating
+    description: rating of the user
+    type: object
+    properties:
+      rating:
+        type: number
+        x-go-custom-tag: 'firestore:"rating"'
+      comment:
+        type: string
+        x-go-custom-tag: 'firestore:"comment"'
+      file:
+        type: string
+        x-go-custom-tag: 'firestore:"file"'
+  user_feedback:
+    title: user rating
+    description: rating of the user
+    type: object
+    properties:
+      user_rating:
+        type: number
+        format: float
+        x-go-custom-tag: 'firestore:"user_rating"'
+      user_questions:
+        type: array
+        x-go-custom-tag: 'firestore:"user_questions"'
+        items:
+          type: string
+      user_attachments:
+        type: array
+        x-go-custom-tag: 'firestore:"user_attachments"'
+        items:
+          $ref: "#/definitions/file"
+      user_date_rated:
+        type: string
+        x-go-custom-tag: 'firestore:"user_date_rated"'
+      rated_userid:
+        type: string
+        x-go-custom-tag: 'firestore:"rated_userid"'
+  shortlisted:
+    title: short listed
+    type: object
+    properties:
+      short_listed_id:
+        type: string
+        x-go-custom-tag: 'firestore:"short_listed_id"'
+      short_listed_date:
+        type: string
+        x-go-custom-tag: 'firestore:"short_listed_date"'
+  interested:
+    title: interested
+    type: object
+    properties:
+      send_interest_id:
+        type: string
+        x-go-custom-tag: 'firestore:"send_interest_id"'
+      send_interest_date:
+        type: string
+        x-go-custom-tag: 'firestore:"send_interest_date"'
+  profile_views:
+    title: profiles views
+    type: object
+    properties:
+      viewed_id:
+        type: string
+        x-go-custom-tag: 'firestore:"viewed_id"'
+      viewed_dates:
+        type: array
+        x-go-custom-tag: 'firestore:"viewed_dates"'
+        items:
+          type: string
+  privacy:
+    title: Privacy is the settings to changes view/call options to others
+    type: object
+    x-go-custom-tag: 'firestore:"privacy_setting"'
+    properties:
+      name:
+        x-go-custom-tag: 'firestore:"name"'
+        type: string
+        enum:
+          - all_users
+          - only_accepted_or_interested_users
+          # $ref: "#/definitions/privacy_options"
+          # not able to reuse the definition, filed a bug: https://github.com/go-swagger/go-swagger/issues/2465
+      mobile_number:
+        x-go-custom-tag: 'firestore:"mobile_number"'
+        type: string
+        enum:
+          - all_users
+          - only_accepted_or_interested_users
+      alternate_number:
+        x-go-custom-tag: 'firestore:"alternate_number"'
+        type: string
+        enum:
+          - all_users
+          - only_accepted_or_interested_users
+      email_id:
+        x-go-custom-tag: 'firestore:"email_id"'
+        type: string
+        enum:
+          - all_users
+          - only_accepted_or_interested_users
+      dob_details:
+        x-go-custom-tag: 'firestore:"dob_details"'
+        type: string
+        enum:
+          - all_users
+          - only_accepted_or_interested_users
+      photo:
+        x-go-custom-tag: 'firestore:"photo"'
+        type: string
+        enum:
+          - all_users
+          - only_accepted_or_interested_users
+          - only_users_who_pass_my_filters
+      profile:
+        x-go-custom-tag: 'firestore:"profile"'
+        type: string
+        enum:
+          - all_users
+          - only_accepted_or_interested_users
+          - only_users_who_pass_my_filters
+      video_call:
+        x-go-custom-tag: 'firestore:"video_call"'
+        type: object
+        properties:
+          options:
+            x-go-custom-tag: 'firestore:"options"'
+            type: string
+            enum:
+              - all_users
+              - only_accepted_or_interested_users
+          timings_from:
+            description: allow calls from this time forth
+            x-go-custom-tag: 'firestore:"timings_from"'
+            type: string
+          timings_to:
+            description: allow calls till this time
+            x-go-custom-tag: 'firestore:"timings_to"'
+            type: string
+      audio_call:
+        x-go-custom-tag: 'firestore:"audio_call"'
+        type: object
+        properties:
+          options:
+            x-go-custom-tag: 'firestore:"options"'
+            type: string
+            enum:
+              - all_users
+              - only_accepted_or_interested_users
+          timings_from:
+            description: allow calls from this time forth
+            x-go-custom-tag: 'firestore:"timings_from"'
+            type: string
+          timings_to:
+            description: allow calls till this time
+            x-go-custom-tag: 'firestore:"timings_to"'
+            type: string
+  # privacy_options:
+  #   type: string
+  #   enum:
+  #     - all_users
+  #     - only_accepted_or_interested_users
+  #     - only_users_who_pass_my_filters
+
+  # Schema for error response body
+  question_bank:
+    type: object
+    properties:
+      question_id:
+        type: string
+      question_text:
+        type: string
+      question_group:
+        type: string
+        enum: 
+          - value
+          - life
+          - compatibility 
+          - regarding_you
+      question_type:
+        type: string
+        enum:
+          - single-select
+          - multi-select
+      question_choices:
+        type: array
+        items: 
+          $ref: "#/definitions/choice"
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+    required:
+      - message
+
+# Descriptions of common responses
+responses:
+  BadRequest:
+    description: Bad request
+    schema:
+      $ref: "#/definitions/Error"
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: "#/definitions/Error"
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: "#/definitions/Error"
+  InternalServerError:
+    description: Internal server error
+    schema:
+      $ref: "#/definitions/Error"

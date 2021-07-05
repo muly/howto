@@ -1,0 +1,45 @@
+[
+    {
+        "Id": "e1",
+        "Expression": "m1 / m2",
+        "Label": "ErrorRate"
+    },
+    {
+        "Id": "m1",
+        "MetricStat": {
+            "Metric": {
+                "Namespace": "MyApplication",
+                "MetricName": "Errors",
+                "Dimensions": [
+                    {
+                        "Name": "FunctionName",
+                        "Value": "MyFunc"
+                    }
+                ]
+            },
+            "Period": 300,
+            "Stat": "Sum",
+            "Unit": "Count"
+        },
+        "ReturnData": false
+    },
+    {
+        "Id": "m2",
+        "MetricStat": {
+            "Metric": {
+                "Namespace": "MyApplication",
+                "MetricName": "Invocations",
+                "Dimensions": [
+                    {
+                        "Name": "FunctionName",
+                        "Value": "MyFunc"
+                    }
+                ]
+            },
+            "Period": 300,
+            "Stat": "Sum",
+            "Unit": "Count"
+        },
+        "ReturnData": false
+    }
+]

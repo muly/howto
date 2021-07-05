@@ -1,0 +1,5 @@
+
+Note: make sure the role arn used here has the necessary permission to deploy. TIP: execution fails and hints the required permissions.
+
+deploy: 
+    sls deploy

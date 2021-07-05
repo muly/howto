@@ -1,0 +1,149 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "The AWS CloudFormation template for this Serverless application",
+  "Resources": {
+    "ServerlessDeploymentBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ServerlessDeploymentBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "ServerlessDeploymentBucket"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Effect": "Deny",
+              "Principal": "*",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "ServerlessDeploymentBucket"
+                      },
+                      "/*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "ServerlessDeploymentBucket"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": false
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "Lambdatakes1paramLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/messagerNew-dev-lambdatakes1param"
+      }
+    },
+    "Lambdatakes1paramLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/messagerNew/dev/1616392511141-2021-03-22T05:55:11.141Z/messagerNew.zip"
+        },
+        "Handler": "lambdaExecutable",
+        "Runtime": "go1.x",
+        "FunctionName": "messagerNew-dev-lambdatakes1param",
+        "MemorySize": 1024,
+        "Timeout": 50,
+        "Role": {
+          "Fn::GetAtt": [
+            "lambdaExecutableRole124",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "Lambdatakes1paramLogGroup",
+        "lambdaExecutableRole124"
+      ]
+    },
+    "Lambdatakes1paramLambdaVersionAPOEAm7krIWxmY1SIF3xkvPM47sCIiXsdW1qBa9MA": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "Lambdatakes1paramLambdaFunction"
+        },
+        "CodeSha256": "ndiOGJ+F5xc63CL7XQlHWUl97bNT2yj2kNphLZ25Ii4="
+      }
+    },
+    "TestStepFuncExampleStepFunctionsStateMachine": {
+      "Type": "AWS::StepFunctions::StateMachine",
+      "Properties": {
+        "DefinitionString": "{\n  \"Comment\": \"A Hello World example of the Amazon States Language using an AWS Lambda Function\",\n  \"StartAt\": \"Invoke Lambda function\",\n  \"States\": {\n    \"Invoke Lambda function\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"arn:aws:states:::lambda:invoke\",\n      \"Parameters\": {\n        \"FunctionName\": \"arn:aws:lambda:us-west-1:851336187371:function:lambdatakes1param\",\n        \"Payload\": {\n          \"A\": 10,\n          \"B\": \"hello\"\n        }\n      },\n      \"End\": true\n    }\n  }\n}",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "lambdaExecutableRole124",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": []
+    }
+  },
+  "Outputs": {
+    "ServerlessDeploymentBucketName": {
+      "Value": {
+        "Ref": "ServerlessDeploymentBucket"
+      }
+    },
+    "Lambdatakes1paramLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "Lambdatakes1paramLambdaVersionAPOEAm7krIWxmY1SIF3xkvPM47sCIiXsdW1qBa9MA"
+      }
+    },
+    "TestStepFuncExampleStepFunctionsStateMachineArn": {
+      "Description": "Current StateMachine Arn",
+      "Value": {
+        "Ref": "TestStepFuncExampleStepFunctionsStateMachine"
+      }
+    }
+  }
+}

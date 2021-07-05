@@ -1,0 +1,32 @@
+{
+    "Comment": "Sample State Machine",
+    "StartAt": "StartTask",
+    "States": {
+        "StartTask": {
+            "Type": "Pass",
+            "Result": "bunny",
+            "ResultPath": "$.myData.data1",
+            "Next": "StartTask2"
+        },
+        "StartTask2": {
+            "Type": "Pass",
+            "Result": "monkey",
+            "ResultPath": "$.myData.data2",
+            "Next": "StartTask3"
+        },
+        "StartTask3": {
+            "Type": "Pass",
+            "Parameters": {
+                "QueryString.$": "States.Format('hello formatted '{}' and {}', $.myData.data1, $.myData.data2)"
+            },
+            "ResultPath": "$.myData.data3",
+            "Next": "StartTask4"
+        },
+        "StartTask4": {
+            "Type": "Pass",
+            "Result": "Hello World!4",
+            "ResultPath": "$.myData.data4",
+            "End": true
+        }
+    }
+}

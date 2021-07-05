@@ -1,0 +1,38 @@
+service:
+  name: swaggerserverlesslambda2
+
+custom:
+  stage: 'beta'
+  environmentTag: ${opt:environmentTag, 'qa'}
+
+provider:
+  name: aws
+  account: 'AWS_ACCOUNT_ID'
+  endpointType: REGIONAL
+  runtime: go1.x
+  memorySize: 512
+  timeout: 30
+  region: us-east-1
+  deploymentBucket:
+    name: muly-test-123
+  stage: ${self:custom.stage}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "logs:CreateLogGroup"
+        - "logs:CreateLogStream"
+        - "logs:PutLogEvents"
+      Resource: "*"
+
+package:
+  include:
+    - ./**
+
+functions:
+  staticfileserver2:
+    name: lambda-${self:custom.stage}
+    handler: lambda
+    events:
+      - http:
+          path: "docs/{proxy+}"
+          method: "get"

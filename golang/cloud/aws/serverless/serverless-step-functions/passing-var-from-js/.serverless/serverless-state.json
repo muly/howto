@@ -1,0 +1,259 @@
+{
+  "service": {
+    "service": "messager",
+    "serviceObject": {
+      "name": "messager"
+    },
+    "provider": {
+      "name": "aws",
+      "region": "us-east-1",
+      "stage": "dev",
+      "variableSyntax": "\\${([^{}:]+?(?:\\(|:)(?:[^:{}][^{}]*?)?)}",
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketEncryption": {
+                "ServerSideEncryptionConfiguration": [
+                  {
+                    "ServerSideEncryptionByDefault": {
+                      "SSEAlgorithm": "AES256"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ServerlessDeploymentBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "PolicyDocument": {
+                "Statement": [
+                  {
+                    "Action": "s3:*",
+                    "Effect": "Deny",
+                    "Principal": "*",
+                    "Resource": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            },
+                            "/*"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            }
+                          ]
+                        ]
+                      }
+                    ],
+                    "Condition": {
+                      "Bool": {
+                        "aws:SecureTransport": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "TestStep1234": {
+            "Type": "AWS::StepFunctions::StateMachine",
+            "Properties": {
+              "DefinitionString": "{\n  \"Comment\": \"A Hello World example of the Amazon States Language using an AWS Lambda Function\",\n  \"StartAt\": \"Hello World\",\n  \"States\": {\n    \"Hello World\": {\n      \"Type\": \"Pass\",\n      \"Result\": \"My year is 2021/03/18\",\n      \"End\": true\n    }\n  }\n}",
+              "RoleArn": "arn:aws:iam::851336187371:role/service-role/StepFunctions-MyStateMachine-role-950c47c3",
+              "StateMachineName": "testStep1234"
+            },
+            "DependsOn": []
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          },
+          "TestStep1234Arn": {
+            "Description": "Current StateMachine Arn",
+            "Value": {
+              "Ref": "TestStep1234"
+            }
+          }
+        }
+      },
+      "coreCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketEncryption": {
+                "ServerSideEncryptionConfiguration": [
+                  {
+                    "ServerSideEncryptionByDefault": {
+                      "SSEAlgorithm": "AES256"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ServerlessDeploymentBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "PolicyDocument": {
+                "Statement": [
+                  {
+                    "Action": "s3:*",
+                    "Effect": "Deny",
+                    "Principal": "*",
+                    "Resource": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            },
+                            "/*"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            }
+                          ]
+                        ]
+                      }
+                    ],
+                    "Condition": {
+                      "Bool": {
+                        "aws:SecureTransport": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          }
+        }
+      }
+    },
+    "plugins": [
+      "serverless-step-functions"
+    ],
+    "pluginsData": {},
+    "functions": {},
+    "configValidationMode": "warn",
+    "serviceFilename": "serverless.yml",
+    "layers": {},
+    "initialServerlessConfig": {
+      "service": {
+        "$ref": "$[\"service\"][\"serviceObject\"]"
+      },
+      "provider": {
+        "$ref": "$[\"service\"][\"provider\"]"
+      },
+      "plugins": {
+        "$ref": "$[\"service\"][\"plugins\"]"
+      },
+      "stepFunctions": {
+        "validate": true,
+        "stateMachines": {
+          "testStepFuncExample": {
+            "name": "testStep1234",
+            "role": "arn:aws:iam::851336187371:role/service-role/StepFunctions-MyStateMachine-role-950c47c3",
+            "definition": {
+              "Comment": "A Hello World example of the Amazon States Language using an AWS Lambda Function",
+              "StartAt": "Hello World",
+              "States": {
+                "Hello World": {
+                  "Type": "Pass",
+                  "Result": "My year is 2021/03/18",
+                  "End": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "isDashboardMonitoringPreconfigured": false,
+    "stepFunctions": {
+      "validate": true,
+      "stateMachines": {
+        "testStepFuncExample": {
+          "name": "testStep1234",
+          "role": "arn:aws:iam::851336187371:role/service-role/StepFunctions-MyStateMachine-role-950c47c3",
+          "definition": {
+            "Comment": "A Hello World example of the Amazon States Language using an AWS Lambda Function",
+            "StartAt": "Hello World",
+            "States": {
+              "Hello World": {
+                "Type": "Pass",
+                "Result": "My year is 2021/03/18",
+                "End": true
+              }
+            }
+          }
+        }
+      },
+      "activities": []
+    }
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/messager/dev/1616209742181-2021-03-20T03:09:02.181Z",
+    "artifact": ""
+  }
+}

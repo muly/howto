@@ -1,0 +1,11 @@
+
+name: testt yaml config
+dev:
+  variables:
+    ENV2: "two"
+    ENV1: "one"
+    ENV3: "one"
+qa:
+  variables:
+    ENV2: "qa_two"
+    ENV1: "qa_one"

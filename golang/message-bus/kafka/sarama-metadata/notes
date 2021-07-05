@@ -1,0 +1,34 @@
+## installing and setting up kafka locally
+
+    source: 
+        http://selftuts.com/kafaka-setup-using-docker-compose/
+        https://www.youtube.com/watch?v=WnlX7w4lHvM
+        producer: https://ednsquare.com/story/create-kafka-producer-with-golang-and-sarama------ItGvwK
+
+    1) start kafka service
+        docker-compose -f docker-compose.yml up
+            Note: use -d option to run in background mode
+
+    2) open the shell of the kafka docker container
+        docker exec -it kafka /bin/sh
+
+    3) create topic: from the kafka terminal
+        cd /opt/kafka_2.13-2.6.0/bin
+        ./kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic topic123      
+
+    4) list topics
+        ./kafka-topics.sh --list --zookeeper zookeeper:2181
+
+
+
+
+## running the producer:
+    go run producer.go 
+
+
+## running the consumer: in another terminal
+    go run consumer.go
+
+
+## testing
+    send the message from the producer prompt and the message should be received on the consumer side.

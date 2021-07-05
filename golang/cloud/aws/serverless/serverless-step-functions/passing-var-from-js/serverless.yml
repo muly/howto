@@ -1,0 +1,27 @@
+service: messager
+
+provider: 
+  name: aws
+  region: us-east-1
+
+
+
+plugins:
+  - serverless-step-functions
+
+
+stepFunctions:
+  validate: true
+  stateMachines:
+    testStepFuncExample:
+      name: testStep1234
+      role: arn:aws:iam::851336187371:role/service-role/StepFunctions-MyStateMachine-role-950c47c3
+      definition:
+        Comment: "A Hello World example of the Amazon States Language using an AWS Lambda Function"
+        StartAt: Hello World
+        States:
+            Hello World: 
+                Type: Pass
+                Result: My year is ${file(vars.js):year}/${file(vars.js):month}/${file(vars.js):date}
+                End: true
+

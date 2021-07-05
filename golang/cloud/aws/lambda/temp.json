@@ -1,0 +1,938 @@
+{
+    "QueryExecution": {
+        "EngineVersion": {
+            "EffectiveEngineVersion": "Athena engine version 1",
+            "SelectedEngineVersion": "AUTO"
+        },
+        "Query": "select  * from sampledb.elb_logs limit 10",
+        "QueryExecutionContext": {},
+        "QueryExecutionId": {
+            "ResultSet": {
+                "ResultSetMetadata": {
+                    "ColumnInfo": [
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "request_timestamp",
+                            "Name": "request_timestamp",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "elb_name",
+                            "Name": "elb_name",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "request_ip",
+                            "Name": "request_ip",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": false,
+                            "CatalogName": "hive",
+                            "Label": "request_port",
+                            "Name": "request_port",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 10,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "integer"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "backend_ip",
+                            "Name": "backend_ip",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": false,
+                            "CatalogName": "hive",
+                            "Label": "backend_port",
+                            "Name": "backend_port",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 10,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "integer"
+                        },
+                        {
+                            "CaseSensitive": false,
+                            "CatalogName": "hive",
+                            "Label": "request_processing_time",
+                            "Name": "request_processing_time",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 17,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "double"
+                        },
+                        {
+                            "CaseSensitive": false,
+                            "CatalogName": "hive",
+                            "Label": "backend_processing_time",
+                            "Name": "backend_processing_time",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 17,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "double"
+                        },
+                        {
+                            "CaseSensitive": false,
+                            "CatalogName": "hive",
+                            "Label": "client_response_time",
+                            "Name": "client_response_time",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 17,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "double"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "elb_response_code",
+                            "Name": "elb_response_code",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "backend_response_code",
+                            "Name": "backend_response_code",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": false,
+                            "CatalogName": "hive",
+                            "Label": "received_bytes",
+                            "Name": "received_bytes",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 19,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "bigint"
+                        },
+                        {
+                            "CaseSensitive": false,
+                            "CatalogName": "hive",
+                            "Label": "sent_bytes",
+                            "Name": "sent_bytes",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 19,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "bigint"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "request_verb",
+                            "Name": "request_verb",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "url",
+                            "Name": "url",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "protocol",
+                            "Name": "protocol",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "user_agent",
+                            "Name": "user_agent",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "ssl_cipher",
+                            "Name": "ssl_cipher",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        },
+                        {
+                            "CaseSensitive": true,
+                            "CatalogName": "hive",
+                            "Label": "ssl_protocol",
+                            "Name": "ssl_protocol",
+                            "Nullable": "UNKNOWN",
+                            "Precision": 2147483647,
+                            "Scale": 0,
+                            "SchemaName": "",
+                            "TableName": "",
+                            "Type": "varchar"
+                        }
+                    ]
+                },
+                "Rows": [
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "request_timestamp"
+                            },
+                            {
+                                "VarCharValue": "elb_name"
+                            },
+                            {
+                                "VarCharValue": "request_ip"
+                            },
+                            {
+                                "VarCharValue": "request_port"
+                            },
+                            {
+                                "VarCharValue": "backend_ip"
+                            },
+                            {
+                                "VarCharValue": "backend_port"
+                            },
+                            {
+                                "VarCharValue": "request_processing_time"
+                            },
+                            {
+                                "VarCharValue": "backend_processing_time"
+                            },
+                            {
+                                "VarCharValue": "client_response_time"
+                            },
+                            {
+                                "VarCharValue": "elb_response_code"
+                            },
+                            {
+                                "VarCharValue": "backend_response_code"
+                            },
+                            {
+                                "VarCharValue": "received_bytes"
+                            },
+                            {
+                                "VarCharValue": "sent_bytes"
+                            },
+                            {
+                                "VarCharValue": "request_verb"
+                            },
+                            {
+                                "VarCharValue": "url"
+                            },
+                            {
+                                "VarCharValue": "protocol"
+                            },
+                            {
+                                "VarCharValue": "user_agent"
+                            },
+                            {
+                                "VarCharValue": "ssl_cipher"
+                            },
+                            {
+                                "VarCharValue": "ssl_protocol"
+                            }
+                        ]
+                    },
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "2015-01-01T16:00:00.516940Z"
+                            },
+                            {
+                                "VarCharValue": "elb_demo_009"
+                            },
+                            {
+                                "VarCharValue": "242.76.140.141"
+                            },
+                            {
+                                "VarCharValue": "18201"
+                            },
+                            {
+                                "VarCharValue": "172.42.159.57"
+                            },
+                            {
+                                "VarCharValue": "80"
+                            },
+                            {
+                                "VarCharValue": "0.001448"
+                            },
+                            {
+                                "VarCharValue": "8.46E-4"
+                            },
+                            {
+                                "VarCharValue": "9.97E-4"
+                            },
+                            {
+                                "VarCharValue": "302"
+                            },
+                            {
+                                "VarCharValue": "302"
+                            },
+                            {
+                                "VarCharValue": "0"
+                            },
+                            {
+                                "VarCharValue": "2911"
+                            },
+                            {
+                                "VarCharValue": "GET"
+                            },
+                            {
+                                "VarCharValue": "https://www.example.com/articles/817"
+                            },
+                            {
+                                "VarCharValue": "HTTP/1.1"
+                            },
+                            {
+                                "VarCharValue": "\\"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv: 15.0) Gecko/20100101 Firefox/15.0.1\\""
+                            },
+                            {
+                                "VarCharValue": "DHE-RSA-AES128-SHA"
+                            },
+                            {
+                                "VarCharValue": "TLSv1.2"
+                            }
+                        ]
+                    },
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "2015-01-01T16:00:00.902953Z"
+                            },
+                            {
+                                "VarCharValue": "elb_demo_005"
+                            },
+                            {
+                                "VarCharValue": "246.233.91.115"
+                            },
+                            {
+                                "VarCharValue": "1950"
+                            },
+                            {
+                                "VarCharValue": "172.42.232.155"
+                            },
+                            {
+                                "VarCharValue": "8888"
+                            },
+                            {
+                                "VarCharValue": "9.59E-4"
+                            },
+                            {
+                                "VarCharValue": "0.001703"
+                            },
+                            {
+                                "VarCharValue": "8.93E-4"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "0"
+                            },
+                            {
+                                "VarCharValue": "3027"
+                            },
+                            {
+                                "VarCharValue": "GET"
+                            },
+                            {
+                                "VarCharValue": "http://www.example.com/jobs/509"
+                            },
+                            {
+                                "VarCharValue": "HTTP/1.1"
+                            },
+                            {
+                                "VarCharValue": "\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Safari/602.1.50\\""
+                            },
+                            {
+                                "VarCharValue": "-"
+                            },
+                            {
+                                "VarCharValue": "-"
+                            }
+                        ]
+                    },
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "2015-01-01T16:00:01.206255Z"
+                            },
+                            {
+                                "VarCharValue": "elb_demo_002"
+                            },
+                            {
+                                "VarCharValue": "250.96.73.238"
+                            },
+                            {
+                                "VarCharValue": "12800"
+                            },
+                            {
+                                "VarCharValue": "172.34.87.144"
+                            },
+                            {
+                                "VarCharValue": "80"
+                            },
+                            {
+                                "VarCharValue": "0.001549"
+                            },
+                            {
+                                "VarCharValue": "9.68E-4"
+                            },
+                            {
+                                "VarCharValue": "0.001908"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "0"
+                            },
+                            {
+                                "VarCharValue": "888"
+                            },
+                            {
+                                "VarCharValue": "GET"
+                            },
+                            {
+                                "VarCharValue": "http://www.example.com/articles/729"
+                            },
+                            {
+                                "VarCharValue": "HTTP/1.1"
+                            },
+                            {
+                                "VarCharValue": "\\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246\\""
+                            },
+                            {
+                                "VarCharValue": "-"
+                            },
+                            {
+                                "VarCharValue": "-"
+                            }
+                        ]
+                    },
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "2015-01-01T16:00:01.612598Z"
+                            },
+                            {
+                                "VarCharValue": "elb_demo_004"
+                            },
+                            {
+                                "VarCharValue": "248.195.79.121"
+                            },
+                            {
+                                "VarCharValue": "17103"
+                            },
+                            {
+                                "VarCharValue": "172.47.170.151"
+                            },
+                            {
+                                "VarCharValue": "443"
+                            },
+                            {
+                                "VarCharValue": "4.03E-4"
+                            },
+                            {
+                                "VarCharValue": "4.69E-4"
+                            },
+                            {
+                                "VarCharValue": "0.001351"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "0"
+                            },
+                            {
+                                "VarCharValue": "3125"
+                            },
+                            {
+                                "VarCharValue": "GET"
+                            },
+                            {
+                                "VarCharValue": "https://www.example.com/jobs/405"
+                            },
+                            {
+                                "VarCharValue": "HTTP/1.1"
+                            },
+                            {
+                                "VarCharValue": "\\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246\\""
+                            },
+                            {
+                                "VarCharValue": "DHE-RSA-AES128-SHA"
+                            },
+                            {
+                                "VarCharValue": "TLSv1.2"
+                            }
+                        ]
+                    },
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "2015-01-01T16:00:01.848608Z"
+                            },
+                            {
+                                "VarCharValue": "elb_demo_006"
+                            },
+                            {
+                                "VarCharValue": "243.152.139.203"
+                            },
+                            {
+                                "VarCharValue": "19696"
+                            },
+                            {
+                                "VarCharValue": "172.36.224.205"
+                            },
+                            {
+                                "VarCharValue": "80"
+                            },
+                            {
+                                "VarCharValue": "0.001194"
+                            },
+                            {
+                                "VarCharValue": "2.7E-4"
+                            },
+                            {
+                                "VarCharValue": "0.001989"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "0"
+                            },
+                            {
+                                "VarCharValue": "4007"
+                            },
+                            {
+                                "VarCharValue": "GET"
+                            },
+                            {
+                                "VarCharValue": "https://www.example.com/jobs/751"
+                            },
+                            {
+                                "VarCharValue": "HTTP/1.1"
+                            },
+                            {
+                                "VarCharValue": "\\"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv: 15.0) Gecko/20100101 Firefox/15.0.1\\""
+                            },
+                            {
+                                "VarCharValue": "DHE-RSA-AES128-SHA"
+                            },
+                            {
+                                "VarCharValue": "TLSv1.2"
+                            }
+                        ]
+                    },
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "2015-01-01T16:00:02.587389Z"
+                            },
+                            {
+                                "VarCharValue": "elb_demo_002"
+                            },
+                            {
+                                "VarCharValue": "241.104.54.182"
+                            },
+                            {
+                                "VarCharValue": "17600"
+                            },
+                            {
+                                "VarCharValue": "172.40.39.220"
+                            },
+                            {
+                                "VarCharValue": "8888"
+                            },
+                            {
+                                "VarCharValue": "0.001956"
+                            },
+                            {
+                                "VarCharValue": "7.29E-4"
+                            },
+                            {
+                                "VarCharValue": "0.001367"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "0"
+                            },
+                            {
+                                "VarCharValue": "3250"
+                            },
+                            {
+                                "VarCharValue": "GET"
+                            },
+                            {
+                                "VarCharValue": "https://www.example.com/jobs/85"
+                            },
+                            {
+                                "VarCharValue": "HTTP/1.1"
+                            },
+                            {
+                                "VarCharValue": "\\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246\\""
+                            },
+                            {
+                                "VarCharValue": "DHE-RSA-AES128-SHA"
+                            },
+                            {
+                                "VarCharValue": "TLSv1.2"
+                            }
+                        ]
+                    },
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "2015-01-01T16:00:02.793335Z"
+                            },
+                            {
+                                "VarCharValue": "elb_demo_009"
+                            },
+                            {
+                                "VarCharValue": "244.155.83.34"
+                            },
+                            {
+                                "VarCharValue": "6833"
+                            },
+                            {
+                                "VarCharValue": "172.30.177.244"
+                            },
+                            {
+                                "VarCharValue": "80"
+                            },
+                            {
+                                "VarCharValue": "0.001774"
+                            },
+                            {
+                                "VarCharValue": "2.6E-4"
+                            },
+                            {
+                                "VarCharValue": "0.001976"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "0"
+                            },
+                            {
+                                "VarCharValue": "2113"
+                            },
+                            {
+                                "VarCharValue": "GET"
+                            },
+                            {
+                                "VarCharValue": "http://www.example.com/images/423"
+                            },
+                            {
+                                "VarCharValue": "HTTP/1.1"
+                            },
+                            {
+                                "VarCharValue": "\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9\\""
+                            },
+                            {
+                                "VarCharValue": "-"
+                            },
+                            {
+                                "VarCharValue": "-"
+                            }
+                        ]
+                    },
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "2015-01-01T16:00:03.068897Z"
+                            },
+                            {
+                                "VarCharValue": "elb_demo_003"
+                            },
+                            {
+                                "VarCharValue": "244.49.248.166"
+                            },
+                            {
+                                "VarCharValue": "32395"
+                            },
+                            {
+                                "VarCharValue": "172.32.112.211"
+                            },
+                            {
+                                "VarCharValue": "80"
+                            },
+                            {
+                                "VarCharValue": "7.88E-4"
+                            },
+                            {
+                                "VarCharValue": "6.51E-4"
+                            },
+                            {
+                                "VarCharValue": "8.35E-4"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "0"
+                            },
+                            {
+                                "VarCharValue": "2021"
+                            },
+                            {
+                                "VarCharValue": "GET"
+                            },
+                            {
+                                "VarCharValue": "https://www.example.com/articles/412"
+                            },
+                            {
+                                "VarCharValue": "HTTP/1.1"
+                            },
+                            {
+                                "VarCharValue": "\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Safari/602.1.50\\""
+                            },
+                            {
+                                "VarCharValue": "DHE-RSA-AES128-SHA"
+                            },
+                            {
+                                "VarCharValue": "TLSv1.2"
+                            }
+                        ]
+                    },
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "2015-01-01T16:00:03.470121Z"
+                            },
+                            {
+                                "VarCharValue": "elb_demo_001"
+                            },
+                            {
+                                "VarCharValue": "252.31.214.240"
+                            },
+                            {
+                                "VarCharValue": "9673"
+                            },
+                            {
+                                "VarCharValue": "172.47.71.242"
+                            },
+                            {
+                                "VarCharValue": "80"
+                            },
+                            {
+                                "VarCharValue": "0.001773"
+                            },
+                            {
+                                "VarCharValue": "0.001217"
+                            },
+                            {
+                                "VarCharValue": "0.001686"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "0"
+                            },
+                            {
+                                "VarCharValue": "1593"
+                            },
+                            {
+                                "VarCharValue": "GET"
+                            },
+                            {
+                                "VarCharValue": "https://www.example.com/articles/93"
+                            },
+                            {
+                                "VarCharValue": "HTTP/1.1"
+                            },
+                            {
+                                "VarCharValue": "\\"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36\\""
+                            },
+                            {
+                                "VarCharValue": "DHE-RSA-AES128-SHA"
+                            },
+                            {
+                                "VarCharValue": "TLSv1.2"
+                            }
+                        ]
+                    },
+                    {
+                        "Data": [
+                            {
+                                "VarCharValue": "2015-01-01T16:00:04.159502Z"
+                            },
+                            {
+                                "VarCharValue": "elb_demo_002"
+                            },
+                            {
+                                "VarCharValue": "243.87.134.132"
+                            },
+                            {
+                                "VarCharValue": "22425"
+                            },
+                            {
+                                "VarCharValue": "172.50.223.240"
+                            },
+                            {
+                                "VarCharValue": "8888"
+                            },
+                            {
+                                "VarCharValue": "0.001042"
+                            },
+                            {
+                                "VarCharValue": "0.001091"
+                            },
+                            {
+                                "VarCharValue": "0.001346"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "200"
+                            },
+                            {
+                                "VarCharValue": "0"
+                            },
+                            {
+                                "VarCharValue": "338"
+                            },
+                            {
+                                "VarCharValue": "GET"
+                            },
+                            {
+                                "VarCharValue": "https://www.example.com/jobs/972"
+                            },
+                            {
+                                "VarCharValue": "HTTP/1.1"
+                            },
+                            {
+                                "VarCharValue": "\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9\\""
+                            },
+                            {
+                                "VarCharValue": "DHE-RSA-AES128-SHA"
+                            },
+                            {
+                                "VarCharValue": "TLSv1.2"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "UpdateCount": 0
+        },
+        "ResultConfiguration": {
+            "OutputLocation": "s3://athena-bucket-muly/workgroup/2a694c50-7b70-4ae4-92cf-6228f92ec1e2.csv"
+        },
+        "StatementType": "DML",
+        "Statistics": {
+            "DataScannedInBytes": 1268776,
+            "EngineExecutionTimeInMillis": 1313,
+            "QueryPlanningTimeInMillis": 867,
+            "QueryQueueTimeInMillis": 394,
+            "ServiceProcessingTimeInMillis": 142,
+            "TotalExecutionTimeInMillis": 1849
+        },
+        "Status": {
+            "CompletionDateTime": 1614910738615,
+            "State": "SUCCEEDED",
+            "SubmissionDateTime": 1614910736766
+        },
+        "WorkGroup": "primary"
+    }
+}'

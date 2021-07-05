@@ -1,0 +1,43 @@
+
+
+// passing header "Accept-Encoding: gzip" resulting in compressed data (624 bytes) and response header "Content-Encoding: gzip"
+curl -v -X GET \
+  http://localhost:8080 \
+  -H 'Accept-Encoding: gzip' \
+  --output ./out.zip
+
+    * Connected to localhost (::1) port 8080 (#0)
+    > GET / HTTP/1.1
+    > Host: localhost:8080
+    > User-Agent: curl/7.54.0
+    > Accept: */*
+    > Accept-Encoding: gzip
+    > 
+    < HTTP/1.1 200 OK
+    < Content-Encoding: gzip
+    < Content-Type: text/plain; charset=utf-8
+    < Vary: Accept-Encoding
+    < Date: Tue, 16 Mar 2021 21:24:33 GMT
+    < Content-Length: 624
+    < 
+    { [624 bytes data]
+
+
+// without passing header "Accept-Encoding: gzip" resulting in plain data (16236 bytes)
+curl -v -X GET \
+  http://localhost:8080 \
+  --output ./out.txt
+
+    * Connected to localhost (::1) port 8080 (#0)
+    > GET / HTTP/1.1
+    > Host: localhost:8080
+    > User-Agent: curl/7.54.0
+    > Accept: */*
+    > 
+    < HTTP/1.1 200 OK
+    < Vary: Accept-Encoding
+    < Date: Tue, 16 Mar 2021 21:24:49 GMT
+    < Content-Type: text/plain; charset=utf-8
+    < Transfer-Encoding: chunked
+    < 
+    { [16236 bytes data]
