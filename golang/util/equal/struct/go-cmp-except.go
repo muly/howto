@@ -11,6 +11,9 @@
 //		cmp.FilterPath(isIgnoredKey, cmp.Ignore()),
 // [x] fields of other data types like slice and maps
 // 		cmpopts.IgnoreFields(Parent{}, "Family", "Members")
+// [] zero values: string, int, pointers, pointer to struct, slices, slices of pointers, etc
+//
+// [] 
 
 package main
 
