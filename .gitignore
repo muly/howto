@@ -17,3 +17,9 @@
 #ide
 .idea
 .DS_Store
+.vscode/
+
+
+**/vendor/*
+
+**/node_modules/*
