@@ -9,6 +9,7 @@ require (
 	github.com/aws/aws-lambda-go v1.22.0
 	github.com/aws/aws-sdk-go v1.37.2
 	github.com/containerd/continuity v0.0.0-20201208142359-180525291bb7 // indirect
+	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.4.0 // indirect
 	github.com/go-kit/kit v0.10.0
@@ -19,8 +20,4 @@ require (
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/sirupsen/logrus v1.7.0 // indirect
 	gotest.tools v2.2.0+incompatible // indirect
-<<<<<<< HEAD
 )
-=======
-)
->>>>>>> 1c1dbad... firehose aws localstack example

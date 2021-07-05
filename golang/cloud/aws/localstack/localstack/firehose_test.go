@@ -5,40 +5,19 @@ import (
 	"fmt"
 	"log"
 	"os"
-<<<<<<< HEAD
-=======
 	"testing"
->>>>>>> 1c1dbad... firehose aws localstack example
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/firehose"
+	"github.com/aws/aws-sdk-go/service/iam"
+	"github.com/aws/aws-sdk-go/service/s3"
+	dockertest "github.com/ory/dockertest"
 )
 
-<<<<<<< HEAD
-var firehoseClinet *firehose.Firehose
-
-const (
-	region       = "us-east-1"
-	firehoseName = "test-hose1"
-)
-
-func Init() {
-	aws_access_key_id := os.Getenv("AWS_ACCESS_KEY_ID")
-	aws_secret_access_key := os.Getenv("AWS_SECRET_ACCESS_KEY")
-
-	if aws_access_key_id == "" || aws_secret_access_key == "" {
-		log.Fatal("aws keys empty")
-	}
-
-	token := ""
-	creds := credentials.NewStaticCredentials(aws_access_key_id, aws_secret_access_key, token)
-	_, err := creds.Get()
-=======
 const (
 	bucketName = "test-bucket-for-firehose"
 	roleName   = "test-role"
@@ -53,14 +32,10 @@ func TestMain(m *testing.M) {
 
 	// pulls an image, creates a container based on it and runs it
 	resource, err := pool.Run("localstack/localstack", "latest", []string{"SERVICES=s3,iam,firehose"})
->>>>>>> 1c1dbad... firehose aws localstack example
 	if err != nil {
-		panic(err)
+		log.Fatalf("Could not start resource: %s", err)
 	}
 
-<<<<<<< HEAD
-	cfg := aws.NewConfig().WithRegion(region).WithCredentials(creds)
-=======
 	endpoint := fmt.Sprintf("http://localhost:%s", resource.GetPort("4566/tcp"))
 	log.Println("endpoint: ", endpoint)
 
@@ -105,6 +80,8 @@ func TestMain(m *testing.M) {
 		log.Fatalf("Could not CreateBucket: %s", err)
 	}
 
+
+
 	// setup  firehose
 	firehoseClinet = firehose.New(sess)
 
@@ -114,52 +91,50 @@ func TestMain(m *testing.M) {
 		ExtendedS3DestinationConfiguration: &firehose.ExtendedS3DestinationConfiguration{
 			BucketARN: aws.String(fmt.Sprintf("arn:aws:s3:%s::%s", region, bucketName)),
 			RoleARN:   roleResponse.Role.Arn,
+			DataFormatConversionConfiguration: &firehose.DataFormatConversionConfiguration{
+				Enabled: aws.Bool(true),
+				InputFormatConfiguration: &firehose.InputFormatConfiguration{
+					Deserializer: &firehose.Deserializer{
+						OpenXJsonSerDe: &firehose.OpenXJsonSerDe{
+							// TODO
+						},
+					},
+				},
+				OutputFormatConfiguration: &firehose.OutputFormatConfiguration{
+					Serializer: &firehose.Serializer{
+						ParquetSerDe: &firehose.ParquetSerDe{
+							// TODO 
+						},
+					},
+				} ,
+				SchemaConfiguration: &firehose.SchemaConfiguration{
+
+				},
+			},
 		},
 	})
 	if err != nil {
 		log.Fatalf("Could not CreateDeliveryStream: %s", err)
 	}
->>>>>>> 1c1dbad... firehose aws localstack example
 
-	firehoseClinet = firehose.New(session.New(), cfg) //TODO: session.New() is deprecated
-}
+	code := m.Run()
 
-func Handler(ctx context.Context, data events.KinesisEvent) error {
-	input := firehose.PutRecordInput{
-		DeliveryStreamName: aws.String(firehoseName),
-		Record: &firehose.Record{
-			Data: []byte(fmt.Sprintf("hello firehose: %v", time.Now())),
-		},
+	// You can't defer this because os.Exit doesn't care for defer
+	if err := pool.Purge(resource); err != nil {
+		log.Fatalf("Could not purge resource: %s", err)
 	}
 
-	_, err := firehoseClinet.PutRecordWithContext(ctx, &input)
+	os.Exit(code)
+}
+
+func TestSomething(t *testing.T) {
+	err := Handler(context.TODO(), events.KinesisEvent{})
 	if err != nil {
-<<<<<<< HEAD
-		log.Println("firehoseClinet.PutRecordWithContext error", err)
-		return err
-=======
 		t.Errorf("Handler error: %v", err)
->>>>>>> 1c1dbad... firehose aws localstack example
 	}
 
-	fmt.Print("Handler Done")
-
-	return nil
 }
 
-<<<<<<< HEAD
-func main() {
-	Init()
-
-	lambda.Start(Handler)
-
-	// // to run locally
-	// err := Handler(context.TODO(), events.KinesisEvent{})
-	// if err != nil {
-	// 	log.Printf("Handler error,: %v", err)
-	// }
-}
-=======
 /*
 currently getting the below error:
 	Internal Server Error
@@ -172,4 +147,3 @@ related aws commands
 	awslocal s3api list-objects --bucket test-bucket-for-firehose
 	awslocal firehose list-delivery-streams
 */
->>>>>>> 1c1dbad... firehose aws localstack example

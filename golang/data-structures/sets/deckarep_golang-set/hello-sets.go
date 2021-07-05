@@ -20,8 +20,4 @@ func main() {
 	// check for existance of a value
 	fmt.Println(s1.Contains("Delhi"))
 	fmt.Println(s1.Contains("XYZ"))
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 9bd9bfd... updated sets example
