@@ -54,7 +54,7 @@ func main() {
 
 /* //// DEPLOYMENT STEPS ////
 0. build for linux and zip the executable
-	- GOOS=linux go build -o lamda
+	- GOOS=linux go build -o lamda hello-lambda.go
 1. login to aws
 2. from IAM roles page: https://console.aws.amazon.com/iam/home?#/roles
 	- "create role" button
